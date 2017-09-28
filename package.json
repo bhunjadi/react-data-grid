@@ -1,6 +1,6 @@
 {
   "name": "@bhunjadi/react-data-grid",
-  "version": "2.0.1",
+  "version": "1.0.0",
   "description": "Data grid for React",
   "main": "src/index.js",
   "scripts": {
@@ -110,7 +110,7 @@
   "author": "adazzle",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/adazzle/react-data-grid/issues"
+    "url": "https://github.com/bhunjadi/react-data-grid/issues"
   },
-  "homepage": "https://github.com/adazzle/react-data-grid"
+  "homepage": "https://github.com/bhunjadi/react-data-grid"
 }

@@ -17,8 +17,8 @@
   "author": "Adazzle",
   "license": "MIT",
   "dependencies": {
-    "react-data-grid": "^1.0.0",
-    "react-data-grid-addons": "^1.0.0"
+    "@bhunjadi/react-data-grid": "^1.0.0",
+    "@bhunjadi/react-data-grid-addons": "^1.0.0"
   },
   "devDependencies": {
     "bootstrap": "^3.2.0",
