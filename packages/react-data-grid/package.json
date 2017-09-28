@@ -15,5 +15,8 @@
   ],
   "repository": "bhunjadi/react-data-grid",
   "author": "Adazzle",
-  "license": "MIT"
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
 }
