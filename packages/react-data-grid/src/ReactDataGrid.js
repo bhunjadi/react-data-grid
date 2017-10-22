@@ -70,9 +70,9 @@ const ReactDataGrid = React.createClass({
     onCellsDragged: React.PropTypes.func,
     onAddFilter: React.PropTypes.func,
     sort: SortDataShape,
-    multipleColumnSort: React.PropTypes.bool,
+    multipleColumnsSort: React.PropTypes.bool,
     onGridSort: React.PropTypes.func,
-    onGridMultipleColumnSort: React.PropTypes.func,
+    onGridMultipleColumnsSort: React.PropTypes.func,
     onDragHandleDoubleClick: React.PropTypes.func,
     onGridRowsUpdated: React.PropTypes.func,
     onRowSelect: React.PropTypes.func,
@@ -148,7 +148,7 @@ const ReactDataGrid = React.createClass({
     } else {
       initialState.selected = {rowIdx: -1, idx: -1};
     }
-    if (this.props.multipleColumnSort) {
+    if (this.props.multipleColumnsSort) {
       initialState.sort = this.props.sort || [];
     }
 
@@ -461,16 +461,15 @@ const ReactDataGrid = React.createClass({
 
   handleSort: function(columnKey: string, direction: SortType) {
     const stateChange = {
-      sortDirection: direction, 
+      sortDirection: direction,
       sortColumn: columnKey
     };
-    const isMultiple = this.props.multipleColumnSort;
+    const isMultiple = this.props.multipleColumnsSort;
     if (isMultiple) {
       let sort = this.state.sort.slice();
       if (direction === SortableHeaderCell.DEFINE_SORT.NONE) {
-        sort = sort.filter(function(item) { return item.column !== columnKey});
-      }
-      else {
+        sort = sort.filter((item) => item.column !== columnKey);
+      } else {
         const sortData = {column: columnKey, direction};
         let found = false;
         for (let i = 0; i < sort.length; ++i) {
@@ -489,8 +488,8 @@ const ReactDataGrid = React.createClass({
       stateChange.sort = sort;
     }
 
-    this.setState(stateChange, function() {
-      isMultiple ? this.props.onGridMultipleColumnSort(stateChange.sort, columnKey, direction) : this.props.onGridSort(columnKey, direction);
+    this.setState(stateChange, () => {
+      isMultiple ? this.props.onGridMultipleColumnsSort(stateChange.sort, columnKey, direction) : this.props.onGridSort(columnKey, direction);
     });
   },
 
