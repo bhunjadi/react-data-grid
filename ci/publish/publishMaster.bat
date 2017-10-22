@@ -4,3 +4,5 @@ for /f %%i in ('node .\ci\publish\getReleaseVersion') do set RELEASE_VERSION=%%i
 npm run beforepublish
 lerna publish --repo-version %RELEASE_VERSION% --skip-git  --yes
 node .\ci\publish\replacePackageEntry react-data-grid
+node .\ci\publish\replacePackageEntry react-data-grid-addons
+node .\ci\publish\replacePackageEntry react-data-grid-examples
