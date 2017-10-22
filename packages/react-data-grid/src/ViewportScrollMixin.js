@@ -42,11 +42,12 @@ module.exports = {
     return this.getGridState(this.props);
   },
 
-  getGridState(props: { rowHeight: number; rowsCount: number; minHeight: number }): ViewportScrollState {
+  getGridState(props: { rowHeight: number; rowsCount: number; minHeight: number, keepAllRowsInDOM: Boolean }): ViewportScrollState {
     let totalNumberColumns = ColumnUtils.getSize(props.columnMetrics.columns);
     let canvasHeight = props.minHeight - props.rowOffsetHeight;
     let renderedRowsCount = ceil((props.minHeight - props.rowHeight) / props.rowHeight);
-    let totalRowCount = min(renderedRowsCount * 4, props.rowsCount);
+    let totalRowCount = props.keepAllRowsInDOM ? props.rowsCount : min(renderedRowsCount * 4, props.rowsCount);
+
     return {
       displayStart: 0,
       displayEnd: totalRowCount,
@@ -121,9 +122,9 @@ module.exports = {
 
     let visibleEnd = min(visibleStart + renderedRowsCount, length);
 
-    let displayStart = max(0, visibleStart - this.props.overScan.rowsStart);
+    let displayStart = this.props.keepAllRowsInDOM ? 0 : max(0, visibleStart - this.props.overScan.rowsStart);
 
-    let displayEnd = min(visibleEnd + this.props.overScan.rowsEnd, length);
+    let displayEnd = this.props.keepAllRowsInDOM ? this.props.rowsCount : min(visibleEnd + this.props.overScan.rowsEnd, length);
 
     let totalNumberColumns = ColumnUtils.getSize(this.props.columnMetrics.columns);
     let colVisibleStart = (totalNumberColumns > 0) ? max(0, this.getVisibleColStart(scrollLeft)) : 0;
@@ -132,11 +133,9 @@ module.exports = {
     let colDisplayStart = max(0, colVisibleStart - this.props.overScan.colsStart);
     let colDisplayEnd = min(colVisibleEnd + this.props.overScan.colsEnd, totalNumberColumns);
 
-    let nextScrollState = {
+    let nextScrollState = Object.assign({
       visibleStart,
       visibleEnd,
-      displayStart,
-      displayEnd,
       height,
       scrollTop,
       scrollLeft,
@@ -145,7 +144,7 @@ module.exports = {
       colDisplayStart,
       colDisplayEnd,
       isScrolling
-    };
+    }, this.props.keepAllRowsInDOM ? {} : {displayStart, displayEnd});
 
     this.setState(nextScrollState);
   },

@@ -117,7 +117,8 @@ const ReactDataGrid = React.createClass({
     /* called before cell is set active, returns a boolean to determine whether cell is editable */
     overScan: React.PropTypes.object,
     onDeleteSubRow: React.PropTypes.func,
-    onAddSubRow: React.PropTypes.func
+    onAddSubRow: React.PropTypes.func,
+    keepAllRowsInDOM: React.PropTypes.bool
   },
 
   getDefaultProps(): {enableCellSelect: boolean} {
@@ -998,7 +999,8 @@ const ReactDataGrid = React.createClass({
             onColumnResize={this.onColumnResize}
             rowScrollTimeout={this.props.rowScrollTimeout}
             contextMenu={this.props.contextMenu}
-            overScan={this.props.overScan} />
+            overScan={this.props.overScan}
+            keepAllRowsInDOM={this.props.keepAllRowsInDOM} />
           </div>
         </div>
       );

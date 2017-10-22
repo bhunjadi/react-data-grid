@@ -134,6 +134,7 @@ const Canvas = React.createClass({
   },
 
   onRows() {
+    // TODO: always false?
     if (this._currentRowsRange !== { start: 0, end: 0 }) {
       this.props.onRows(this._currentRowsRange);
       this._currentRowsRange = { start: 0, end: 0 };

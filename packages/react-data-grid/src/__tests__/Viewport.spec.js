@@ -129,4 +129,44 @@ describe('<Viewport />', () => {
       visibleStart: 0
     });
   });
+
+  fit('should render all rows when keepAllRowsInDOM is selected', () => {
+    const wrapper = shallow(<Viewport {...viewportProps} rowsCount={200} keepAllRowsInDOM={true} />);
+    expect(wrapper.state()).toEqual({
+      colDisplayEnd: 3,
+      colDisplayStart: 0,
+      colVisibleEnd: 3,
+      colVisibleStart: 0,
+      displayEnd: 200,
+      displayStart: 0,
+      height: viewportProps.minHeight,
+      scrollLeft: 0,
+      scrollTop: 0,
+      visibleEnd: 200,
+      visibleStart: 0
+    });
+  });
+
+  fit('should retain all rows when keepAllRowsInDOM is selected when scrolled', () => {
+    const wrapper = shallow(<Viewport {...viewportProps} rowsCount={200} keepAllRowsInDOM={true} />);
+    const scrollLeft = 0;
+    const scrollTop = 200;
+    let Canvas = wrapper.find('Canvas');
+    Canvas.props().onScroll({ scrollTop, scrollLeft});
+
+    expect(wrapper.state()).toEqual({
+      colDisplayEnd: 3,
+      colDisplayStart: 0,
+      colVisibleEnd: 3,
+      colVisibleStart: 0,
+      displayEnd: 200,
+      displayStart: 0,
+      height: viewportProps.minHeight,
+      scrollLeft,
+      scrollTop,
+      visibleEnd: 20,
+      visibleStart: 5,
+      isScrolling: true
+    });
+  });
 });

@@ -58,7 +58,8 @@ const Grid = React.createClass({
     draggableHeaderCell: PropTypes.func,
     getValidFilterValues: PropTypes.func,
     rowGroupRenderer: PropTypes.func,
-    overScan: PropTypes.object
+    overScan: PropTypes.object,
+    keepAllRowsInDOM: PropTypes.bool
   },
 
   mixins: [
@@ -130,6 +131,7 @@ const Grid = React.createClass({
                   getSubRowDetails={this.props.getSubRowDetails}
                   rowGroupRenderer={this.props.rowGroupRenderer}
                   overScan={this.props.overScan}
+                  keepAllRowsInDOM={this.props.keepAllRowsInDOM}
                 />
             </div>
         :
