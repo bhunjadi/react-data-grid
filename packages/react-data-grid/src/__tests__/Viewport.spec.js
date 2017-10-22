@@ -130,7 +130,7 @@ describe('<Viewport />', () => {
     });
   });
 
-  fit('should render all rows when keepAllRowsInDOM is selected', () => {
+  it('should render all rows when keepAllRowsInDOM is selected', () => {
     const wrapper = shallow(<Viewport {...viewportProps} rowsCount={200} keepAllRowsInDOM={true} />);
     expect(wrapper.state()).toEqual({
       colDisplayEnd: 3,
@@ -147,7 +147,7 @@ describe('<Viewport />', () => {
     });
   });
 
-  fit('should retain all rows when keepAllRowsInDOM is selected when scrolled', () => {
+  it('should retain all rows when keepAllRowsInDOM is selected when scrolled', () => {
     const wrapper = shallow(<Viewport {...viewportProps} rowsCount={200} keepAllRowsInDOM={true} />);
     const scrollLeft = 0;
     const scrollTop = 200;
