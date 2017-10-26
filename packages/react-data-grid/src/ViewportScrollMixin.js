@@ -124,7 +124,7 @@ module.exports = {
 
     let displayStart = this.props.keepAllRowsInDOM ? 0 : max(0, visibleStart - this.props.overScan.rowsStart);
 
-    let displayEnd = this.props.keepAllRowsInDOM ? this.props.rowsCount : min(visibleEnd + this.props.overScan.rowsEnd, length);
+    let displayEnd = this.props.keepAllRowsInDOM ? length : min(visibleEnd + this.props.overScan.rowsEnd, length);
 
     let totalNumberColumns = ColumnUtils.getSize(this.props.columnMetrics.columns);
     let colVisibleStart = (totalNumberColumns > 0) ? max(0, this.getVisibleColStart(scrollLeft)) : 0;
@@ -136,6 +136,8 @@ module.exports = {
     let nextScrollState = Object.assign({
       visibleStart,
       visibleEnd,
+      displayStart,
+      displayEnd,
       height,
       scrollTop,
       scrollLeft,
@@ -144,7 +146,7 @@ module.exports = {
       colDisplayStart,
       colDisplayEnd,
       isScrolling
-    }, this.props.keepAllRowsInDOM ? {} : {displayStart, displayEnd});
+    });
 
     this.setState(nextScrollState);
   },
@@ -167,6 +169,7 @@ module.exports = {
   componentWillReceiveProps(nextProps: { rowHeight: number; rowsCount: number, rowOffsetHeight: number }) {
     if (this.props.rowHeight !== nextProps.rowHeight ||
       this.props.minHeight !== nextProps.minHeight ||
+      this.props.keepAllRowsInDOM !== nextProps.keepAllRowsInDOM ||
       ColumnUtils.getSize(this.props.columnMetrics.columns) !== ColumnUtils.getSize(nextProps.columnMetrics.columns)) {
       this.setState(this.getGridState(nextProps));
     } else if (this.props.rowsCount !== nextProps.rowsCount) {
