@@ -169,4 +169,25 @@ describe('<Viewport />', () => {
       isScrolling: true
     });
   });
+
+  it('should update when given height changed', () => {
+    const wrapper = shallow(<Viewport {...viewportProps} />);
+    const newHeight = 1000;
+    let newProps = Object.assign({}, viewportProps, {minHeight: newHeight});
+    wrapper.setProps(newProps);
+    expect(wrapper.state()).toEqual({
+      colDisplayEnd: helpers.columns.length,
+      colDisplayStart: 0,
+      colVisibleEnd: helpers.columns.length,
+      colVisibleStart: 0,
+      displayEnd: 34,
+      displayStart: 0,
+      height: newHeight,
+      scrollLeft: 0,
+      scrollTop: 0,
+      visibleEnd: 29,
+      visibleStart: 0,
+      isScrolling: true
+    });
+  });
 });
