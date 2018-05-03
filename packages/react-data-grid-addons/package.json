@@ -1,11 +1,6 @@
 {
-<<<<<<< HEAD
   "name": "@bhunjadi/react-data-grid-addons",
-  "version": "1.0.4",
-=======
-  "name": "react-data-grid-addons",
-  "version": "3.0.10",
->>>>>>> multiple-column-sort
+  "version": "1.0.6",
   "description": "A set of addons for react-data-grid",
   "scripts": {
     "beforepublish": "node ../../ci/publish/replacePackageEntry react-data-grid-addons true",
@@ -20,11 +15,7 @@
   "author": "Adazzle",
   "license": "MIT",
   "dependencies": {
-<<<<<<< HEAD
-    "@bhunjadi/react-data-grid": "^1.0.4"
-=======
-    "react-data-grid": "^3.0.10"
->>>>>>> multiple-column-sort
+    "@bhunjadi/react-data-grid": "^1.0.6"
   },
   "devDependencies": {
     "jquery": "^2.1.1",
