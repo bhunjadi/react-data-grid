@@ -46,7 +46,7 @@ class Viewport extends React.Component {
     getSubRowDetails: PropTypes.func,
     rowGroupRenderer: PropTypes.func,
     keepAllRowsInDOM: PropTypes.bool
-  },
+  }
 
   static defaultProps = {
     rowHeight: 30
