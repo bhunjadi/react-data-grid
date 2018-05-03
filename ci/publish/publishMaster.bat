@@ -1,8 +1,8 @@
-npm run build
-node .\ci\publish\replacePackageEntry react-data-grid true
+CALL npm run build
+CALL node .\ci\publish\replacePackageEntry react-data-grid true
 for /f %%i in ('node .\ci\publish\getReleaseVersion') do set RELEASE_VERSION=%%i
-npm run beforepublish
-lerna publish --repo-version %RELEASE_VERSION% --skip-git  --yes
-node .\ci\publish\replacePackageEntry react-data-grid
-node .\ci\publish\replacePackageEntry react-data-grid-addons
-node .\ci\publish\replacePackageEntry react-data-grid-examples
+CALL npm run beforepublish
+CALL lerna publish --repo-version %RELEASE_VERSION% --skip-git  --yes
+CALL node .\ci\publish\replacePackageEntry react-data-grid
+CALL node .\ci\publish\replacePackageEntry react-data-grid-addons
+CALL node .\ci\publish\replacePackageEntry react-data-grid-examples
