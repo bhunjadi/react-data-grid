@@ -6,10 +6,11 @@ const floor = Math.floor;
 const ceil = Math.ceil;
 
 function getGridState(props) {
-  const totalNumberColumns = ColumnUtils.getSize(props.columnMetrics.columns);
-  const canvasHeight = props.minHeight - props.rowOffsetHeight;
-  const renderedRowsCount = ceil((props.minHeight - props.rowHeight) / props.rowHeight);
-  const totalRowCount = min(renderedRowsCount * 4, props.rowsCount);
+  let totalNumberColumns = ColumnUtils.getSize(props.columnMetrics.columns);
+  let canvasHeight = props.minHeight - props.rowOffsetHeight;
+  let renderedRowsCount = ceil((props.minHeight - props.rowHeight) / props.rowHeight);
+  let totalRowCount = props.keepAllRowsInDOM ? props.rowsCount : min(renderedRowsCount * 4, props.rowsCount);
+
   return {
     displayStart: 0,
     displayEnd: totalRowCount,
@@ -61,8 +62,8 @@ function getNextScrollState(props, getDOMNodeOffsetWidth, scrollTop, scrollLeft,
   const renderedRowsCount = ceil(height / rowHeight);
   const visibleStart = max(0, floor(scrollTop / rowHeight));
   const visibleEnd = min(visibleStart + renderedRowsCount, length);
-  const displayStart = max(0, visibleStart - props.overScan.rowsStart);
-  const displayEnd = min(visibleEnd + props.overScan.rowsEnd, length);
+  const displayStart = props.keepAllRowsInDOM ? 0 : max(0, visibleStart - props.overScan.rowsStart);
+  const displayEnd = props.keepAllRowsInDOM ? length : min(visibleEnd + props.overScan.rowsEnd, length);
   const totalNumberColumns = ColumnUtils.getSize(props.columnMetrics.columns);
   const colVisibleStart = (totalNumberColumns > 0) ? max(0, getVisibleColStart(props, scrollLeft)) : 0;
   const renderedColumnCount = getRenderedColumnCount(props, getDOMNodeOffsetWidth, colVisibleStart, width);
