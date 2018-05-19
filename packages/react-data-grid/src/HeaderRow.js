@@ -38,6 +38,7 @@ class HeaderRow extends React.Component {
     sortColumn: PropTypes.string,
     sortDirection: PropTypes.oneOf(Object.keys(SortableHeaderCell.DEFINE_SORT)),
     sort: SortDataShape,
+    filters: PropTypes.object,
     cellRenderer: PropTypes.func,
     headerCellRenderer: PropTypes.func,
     filterable: PropTypes.bool,
@@ -62,6 +63,7 @@ class HeaderRow extends React.Component {
       || nextProps.columns !== this.props.columns
       || !shallowEqual(nextProps.style, this.props.style)
       || !areSortArraysEqual(nextProps.sort, this.props.sort)
+      || !shallowEqual(nextProps.filters, this.props.filters)
       || this.props.sortColumn !== nextProps.sortColumn
       || this.props.sortDirection !== nextProps.sortDirection
     );

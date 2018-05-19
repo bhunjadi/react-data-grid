@@ -70,6 +70,7 @@ class ReactDataGrid extends React.Component {
     getCellActions: PropTypes.func,
     onAddFilter: PropTypes.func,
     sort: SortDataShape,
+    filters: PropTypes.object,
     multipleColumnsSort: React.PropTypes.bool,
     onGridSort: PropTypes.func,
     onGridMultipleColumnsSort: React.PropTypes.func,
@@ -1269,6 +1270,7 @@ class ReactDataGrid extends React.Component {
             sortColumn={this.state.sortColumn}
             sortDirection={this.state.sortDirection}
             sort={this.state.sort}
+            filter={this.props.filters}
             onSort={this.handleSort}
             minHeight={this.props.minHeight}
             totalWidth={gridWidth}

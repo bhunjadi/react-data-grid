@@ -43,6 +43,7 @@ class Grid extends React.Component {
     sortColumn: React.PropTypes.string,
     sortDirection: React.PropTypes.oneOf(Object.keys(SortableHeaderCell.DEFINE_SORT)),
     sort: SortDataShape,
+    filters: PropTypes.object,
     rowOffsetHeight: PropTypes.number.isRequired,
     onViewportKeydown: PropTypes.func.isRequired,
     onViewportKeyup: PropTypes.func,
@@ -142,6 +143,7 @@ class Grid extends React.Component {
           sortDirection={this.props.sortDirection}
           draggableHeaderCell={this.props.draggableHeaderCell}
           sort={this.props.sort}
+          filters={this.props.filters}
           onSort={this.props.onSort}
           onHeaderDrop={this.props.onHeaderDrop}
           onScroll={this.onHeaderScroll}

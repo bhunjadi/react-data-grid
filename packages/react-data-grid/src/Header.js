@@ -29,6 +29,7 @@ class Header extends React.Component {
     sortColumn: PropTypes.string,
     sortDirection: PropTypes.oneOf(['ASC', 'DESC', 'NONE']),
     sort: SortDataShape,
+    filters: PropTypes.object,
     onSort: PropTypes.func,
     onColumnResize: PropTypes.func,
     onScroll: PropTypes.func,
@@ -126,6 +127,7 @@ class Header extends React.Component {
         sortColumn={this.props.sortColumn}
         sortDirection={this.props.sortDirection}
         sort={this.props.sort}
+        filters={this.props.filters}
         onSort={this.props.onSort}
         onScroll={this.props.onScroll}
         getValidFilterValues={this.props.getValidFilterValues}
