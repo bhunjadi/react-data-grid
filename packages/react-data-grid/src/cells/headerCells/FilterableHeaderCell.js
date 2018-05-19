@@ -6,7 +6,7 @@ class FilterableHeaderCell extends React.Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     column: PropTypes.shape(ExcelColumn),
-    filters: PropTypes.object,
+    filters: PropTypes.object
   };
 
   constructor(props) {
