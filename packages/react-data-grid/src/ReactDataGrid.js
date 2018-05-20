@@ -131,7 +131,7 @@ class ReactDataGrid extends React.Component {
     minColumnWidth: PropTypes.number,
     columnEquality: PropTypes.func,
     onColumnResize: PropTypes.func,
-    keepAllRowsInDOM: React.PropTypes.bool
+    keepAllRowsInDOM: PropTypes.bool
   };
 
   static defaultProps = {
