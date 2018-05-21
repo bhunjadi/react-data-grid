@@ -4,12 +4,13 @@
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.common.config.js');
 var RewirePlugin = require("rewire-webpack");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var path = require('path');
 var argv = require('minimist')(process.argv.slice(2));
 var RELEASE = !!argv.release;
 var DEBUG = !!argv.debug;
 var BROWSERS = argv.browsers;
-
+var extractCSS = new ExtractTextPlugin('[name].css');
 
 module.exports = function (config) {
 
@@ -89,7 +90,8 @@ module.exports = function (config) {
         extensions: ['', '.webpack.js', '.web.js', '.js', '.jsx']
       },
       plugins: [
-        new RewirePlugin()
+        new RewirePlugin(),
+        extractCSS
       ],
       externals: {
         'cheerio': 'window',
