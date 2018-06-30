@@ -15,6 +15,7 @@ const ColumnMetrics = require('./ColumnMetrics');
 require('../../../themes/react-data-grid-core.css');
 require('../../../themes/react-data-grid-checkbox.css');
 const SortableHeaderCell    = require('./cells/headerCells/SortableHeaderCell');
+const areSortArraysEqual = require('./utils/areSortArraysEqual');
 
 if (!Object.assign) {
   Object.assign = require('object-assign');
@@ -203,6 +204,22 @@ class ReactDataGrid extends React.Component {
         let columnMetrics = this.createColumnMetrics(nextProps);
         this.setState({columnMetrics: columnMetrics});
       }
+    }
+
+    if (nextProps.multipleColumnsSort) {
+      if (!areSortArraysEqual(nextProps.sort, this.props.sort)) {
+        this.setState({
+          sort: nextProps.sort
+        });
+      }
+    }
+    // single column sort case
+    else if (nextProps.sortColumn !== this.props.sortColumn || 
+      nextProps.sortDirection !== this.props.sortDirection) {
+      this.setState({
+        sortColumn: nextProps.sortColumn,
+        sortDirection: nextProps.sortDirection
+      });
     }
   }
 
