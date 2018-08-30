@@ -13,6 +13,8 @@ const SortDataShape = require('./PropTypeShapes/SortDataShape');
 const areSortArraysEqual = require('./utils/areSortArraysEqual');
 require('../../../themes/react-data-grid-header.css');
 
+import shallowEqual from 'shallowequal';
+
 type Column = {
   width: number
 }
@@ -51,6 +53,7 @@ class Header extends React.Component {
     || (this.props.headerRows.length !== nextProps.headerRows.length)
     || (this.state.resizing !== nextState.resizing)
     || !areSortArraysEqual(nextProps.sort, this.props.sort)
+    || !shallowEqual(nextProps.filters, this.props.filters)
     || this.props.sortColumn !== nextProps.sortColumn
     || this.props.sortDirection !== nextProps.sortDirection;
     return update;

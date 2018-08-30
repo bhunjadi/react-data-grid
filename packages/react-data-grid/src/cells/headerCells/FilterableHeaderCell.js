@@ -17,15 +17,25 @@ class FilterableHeaderCell extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const newInputValue = this.getInputValue(nextProps);
+    if (this.state.filterTerm !== newInputValue) {
+      this.setState({
+        filterTerm: newInputValue
+      });
+    }
+  }
+
   handleChange = (e: Event) => {
     let val = e.target.value;
     this.setState({filterTerm: val });
     this.props.onChange({filterTerm: val, column: this.props.column});
   };
 
-  getInputValue() {
-    const filters = this.props.filters || {};
-    return filters[this.props.column.key] || '';
+  getInputValue(passedInProps) {
+    const props = passedInProps || this.props;
+    const filters = props.filters || {};
+    return filters[props.column.key] || '';
   }
 
   renderInput = (): ?ReactElement => {
