@@ -1300,7 +1300,7 @@ class ReactDataGrid extends React.Component {
             sortColumn={this.state.sortColumn}
             sortDirection={this.state.sortDirection}
             sort={this.state.sort}
-            filter={this.props.filters}
+            filters={this.props.filters}
             onSort={this.handleSort}
             minHeight={this.props.minHeight}
             totalWidth={gridWidth}
