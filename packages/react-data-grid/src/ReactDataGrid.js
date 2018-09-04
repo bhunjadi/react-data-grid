@@ -74,6 +74,7 @@ class ReactDataGrid extends React.Component {
     sort: SortDataShape,
     filters: PropTypes.object,
     multipleColumnsSort: PropTypes.bool,
+    requireCtrlForMultipleColumnsSort: PropTypes.bool,
     onGridSort: PropTypes.func,
     onGridMultipleColumnsSort: PropTypes.func,
     sortColumn: PropTypes.string,
@@ -212,9 +213,7 @@ class ReactDataGrid extends React.Component {
           sort: nextProps.sort
         });
       }
-    }
-    // single column sort case
-    else if (nextProps.sortColumn !== this.props.sortColumn || 
+    } else if (nextProps.sortColumn !== this.props.sortColumn ||
       nextProps.sortDirection !== this.props.sortDirection) {
       this.setState({
         sortColumn: nextProps.sortColumn,
@@ -728,14 +727,14 @@ class ReactDataGrid extends React.Component {
     this.setState({textToCopy: textToCopy, copied: copied});
   };
 
-  handleSort = (columnKey: string, direction: SortType) => {
+  handleSort = (columnKey: string, direction: SortType, event) => {
     const stateChange = {
       sortDirection: direction,
       sortColumn: columnKey
     };
     const isMultiple = this.props.multipleColumnsSort;
     if (isMultiple) {
-      let sort = this.state.sort.slice();
+      let sort = this.props.requireCtrlForMultipleColumnsSort && !event.ctrlKey ? [] : this.state.sort.slice();
       if (direction === SortableHeaderCell.DEFINE_SORT.NONE) {
         sort = sort.filter((item) => item.column !== columnKey);
       } else {
