@@ -17,7 +17,7 @@ class SortableHeaderCell extends React.Component {
     sortDescendingFirst: PropTypes.bool
   };
 
-  onClick = () => {
+  onClick = (event) => {
     let direction;
     const { sortDirection, sortDescendingFirst } = this.props;
     switch (sortDirection) {
@@ -36,7 +36,9 @@ class SortableHeaderCell extends React.Component {
     }
     this.props.onSort(
       this.props.columnKey,
-      direction);
+      direction,
+      event,
+    );
   };
 
   getSortByText = () => {

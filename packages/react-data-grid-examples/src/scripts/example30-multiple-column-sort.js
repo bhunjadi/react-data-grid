@@ -110,7 +110,7 @@ class Example extends React.Component {
     return  (
       <ReactDataGrid
         onGridMultipleColumnsSort={this.handleSort}
-        multipleColumnsSort={true}
+        multipleColumnsSort
         columns={columns}
         sort={[{
           column: 'task',

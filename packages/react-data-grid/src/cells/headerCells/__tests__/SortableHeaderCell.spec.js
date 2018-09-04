@@ -25,15 +25,15 @@ describe('<SortableHeaderCell/>', () => {
 
   it('should toggle sort direction when clicked', () => {
     const { wrapper, props } = setup();
-    wrapper.simulate('click');
-    expect(props.onSort).toHaveBeenCalledWith(props.columnKey, DEFINE_SORT.ASC);
+    wrapper.simulate('click', {});
+    expect(props.onSort).toHaveBeenCalledWith(props.columnKey, DEFINE_SORT.ASC, jasmine.any(Object));
   });
 
   describe('When sortDescendingFirst is true', () => {
     it('should set sort descending first when clicked', () => {
       const { wrapper, props } = setup({sortDescendingFirst: true});
-      wrapper.simulate('click');
-      expect(props.onSort).toHaveBeenCalledWith(props.columnKey, DEFINE_SORT.DESC);
+      wrapper.simulate('click', {});
+      expect(props.onSort).toHaveBeenCalledWith(props.columnKey, DEFINE_SORT.DESC, jasmine.any(Object));
     });
   });
 
