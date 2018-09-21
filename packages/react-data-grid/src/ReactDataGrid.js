@@ -732,7 +732,7 @@ class ReactDataGrid extends React.Component {
     };
     const isMultiple = this.props.multipleColumnsSort;
     if (isMultiple) {
-      let sort = this.props.requireCtrlForMultipleColumnsSort && !event.ctrlKey ? [] : this.state.sort.slice();
+      let sort = this.props.requireCtrlForMultipleColumnsSort && !isCtrlKeyHeldDown(event) ? [] : this.state.sort.slice();
       if (direction === SortableHeaderCell.DEFINE_SORT.NONE) {
         sort = sort.filter((item) => item.column !== columnKey);
       } else {
