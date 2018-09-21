@@ -1,6 +1,6 @@
 {
   "name": "@bhunjadi/react-data-grid-examples",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "A set of examples for the grid",
   "main": "main.js",
   "scripts": {
@@ -17,8 +17,8 @@
   "author": "Adazzle",
   "license": "MIT",
   "dependencies": {
-    "@bhunjadi/react-data-grid": "^1.0.16",
-    "@bhunjadi/react-data-grid-addons": "^1.0.16",
+    "@bhunjadi/react-data-grid": "^1.0.17",
+    "@bhunjadi/react-data-grid-addons": "^1.0.17",
     "immutability-helper": "^2.7.0",
     "react-router-dom": "^4.2.2"
   },
