@@ -637,6 +637,24 @@ describe('When multipleColumnsSort is enabled', () => {
     wrapper.instance().handleSort('count', DEFINE_SORT.DESC);
     expect(wrapper.instance().state.sort).toEqual([{column: 'count', direction: DEFINE_SORT.DESC}]);
   });
+  describe('and requireCtrlForMultipleColumnsSort is enabled', () => {
+    it('overwrites sort - without ctrl', () => {
+      const sort = [{column: 'title', direction: DEFINE_SORT.ASC}, {column: 'count', direction: DEFINE_SORT.ASC}];
+      const wrapper = shallow(<ReactDataGrid {...testProps} sort={sort} requireCtrlForMultipleColumnsSort />);
+      wrapper.instance().handleSort('id', DEFINE_SORT.ASC, {ctrlKey: false, metaKey: false});
+      expect(wrapper.instance().state.sort).toEqual([{column: 'id', direction: DEFINE_SORT.ASC}]);
+    });
+
+    ['ctrl', 'cmd'].forEach(type => {
+      it(`adds sort item with ${type} pressed`, () => {
+        const sort = [{column: 'title', direction: DEFINE_SORT.ASC}, {column: 'count', direction: DEFINE_SORT.ASC}];
+        const wrapper = shallow(<ReactDataGrid {...testProps} sort={sort} requireCtrlForMultipleColumnsSort />);
+        const event = type === 'ctrl' ? {ctrlKey: true} : {metaKey: true};
+        wrapper.instance().handleSort('id', DEFINE_SORT.ASC, event);
+        expect(wrapper.instance().state.sort).toEqual([...sort, {column: 'id', direction: DEFINE_SORT.ASC}]);
+      });
+    });
+  });
 });
 
 //
