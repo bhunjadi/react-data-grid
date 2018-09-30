@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const argv = require('minimist')(process.argv.slice(2));
 const RELEASE = argv.release;
+const path = require('path');
 
 const extractCSS = new ExtractTextPlugin('[name].css');
 
@@ -40,7 +41,8 @@ const config = {
       amd: 'react-dom'
     },
     'react/addons': 'React',
-    moment: 'moment'
+    moment: 'moment',
+    immutable: 'immutable'
   },
   module: {
     loaders: [
@@ -51,6 +53,11 @@ const config = {
     ]
   },
   plugins: getPlugins(),
+  resolve: {
+    alias: {
+      common: path.resolve('packages/common/')
+    }
+  },
   postLoaders: [
     {
       test: /\.js$/,

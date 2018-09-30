@@ -11,3 +11,4 @@ lerna-debug.log
 **.orig
 .vscode
 lerna-debug.log
+package-lock.json
