@@ -8,8 +8,8 @@ const HeaderRow           = require('./HeaderRow');
 const getScrollbarSize  = require('./getScrollbarSize');
 import PropTypes from 'prop-types';
 const createObjectWithProperties = require('./createObjectWithProperties');
-const cellMetaDataShape    = require('./PropTypeShapes/CellMetaDataShape');
-const SortDataShape = require('./PropTypeShapes/SortDataShape');
+const cellMetaDataShape    = require('common/prop-shapes/CellMetaDataShape');
+const SortDataShape = require('common/prop-shapes/SortDataShape');
 const areSortArraysEqual = require('./utils/areSortArraysEqual');
 require('../../../themes/react-data-grid-header.css');
 
