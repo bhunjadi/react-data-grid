@@ -1,3 +1,53 @@
+# Forked React Data Grid
+
+This is a forked [react-data-grid](https://github.com/adazzle/react-data-grid).
+
+Added features:
+- multiple column sorting
+- keeping all rows in DOM (no recycling)
+
+## Multiple column sorting
+
+Example
+
+```js
+
+handleMultipleColumnSort(sort) {
+  /**
+   * sort will be an array
+   * for empty sort, sort will still be array with length === 0
+   * each object of array is like {column, direction} where column is column.key from columns definition
+   * */
+}
+
+render() {
+  return (
+    <ReactDataGrid
+      multipleColumnsSort
+      onGridMultipleColumnsSort={this.handleMultipleColumnSort}
+
+      // optionally (default: false)
+      // this forces user to press Ctrl (or Cmd on Mac OS) to be able to do multiple sort, 
+      // without Ctrl it would overwrite the last value and act as single sort (but still pass an array to andleMultipleColumnsSort)
+      requireCtrlForMultipleColumnsSort
+      ...
+    />
+  );
+```
+
+## Keep all rows in DOM
+
+Example
+
+```js
+<ReactDataGrid
+  keepAllRowsInDOM
+  ...
+>
+```
+
+Can be useful if for example you are using expandable rows, etc.
+
 # React Data Grid 
 [![Build status](https://ci.appveyor.com/api/projects/status/smciktvlkvp6r8w7/branch/master?svg=true)](https://ci.appveyor.com/project/adazzle/react-data-grid/branch/master)[![Coverage Status](https://coveralls.io/repos/adazzle/react-data-grid/badge.svg?branch=master)](https://coveralls.io/r/adazzle/react-data-grid?branch=master) [![npm version](https://badge.fury.io/js/react-data-grid.svg)](http://badge.fury.io/js/react-data-grid) 
 ![npm dependencies](https://david-dm.org/adazzle/react-data-grid.svg)
