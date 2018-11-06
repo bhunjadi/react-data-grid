@@ -324,6 +324,23 @@ class Cell extends React.PureComponent {
     return (<div className="react-grid-Cell__value">{cellDeleter}<div style={{ marginLeft: marginLeft }}><span>{CellContent}</span> {this.props.cellControls} {cellExpander}</div></div>);
   };
 
+  getCellTitle = () => {
+    const {value, column} = this.props;
+    if (isFunction(column.cellTitle)) {
+      return column.cellTitle({
+        value,
+        row: this.getRowData(),
+        column
+      });
+    } else if (typeof column.cellTitle === 'string' || typeof column.cellTitle === 'number') {
+      return '' + column.cellTitle;
+    } else if (column.cellTitle === false) {
+      return undefined;
+    } else if (typeof value === 'string' || typeof value === 'number') {
+      return '' + value;
+    }
+  };
+
   render() {
     if (this.props.column.hidden) {
       return null;
@@ -349,6 +366,7 @@ class Cell extends React.PureComponent {
     return (
       <div
         {...this.getKnownDivProps()}
+        title={this.getCellTitle()}
         className={className}
         style={style}
         {...events}
