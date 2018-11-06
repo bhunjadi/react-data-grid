@@ -110,6 +110,7 @@ class ReactDataGrid extends React.Component {
     onBeforeEdit: PropTypes.func,
     selectAllRenderer: PropTypes.object,
     minColumnWidth: PropTypes.number,
+    ignoreScrollbarSize: PropTypes.bool,
     columnEquality: PropTypes.func,
     onColumnResize: PropTypes.func,
     keepAllRowsInDOM: PropTypes.bool,
@@ -133,6 +134,7 @@ class ReactDataGrid extends React.Component {
     enableCellAutoFocus: true,
     onBeforeEdit: () => {},
     minColumnWidth: 80,
+    ignoreScrollbarSize: false,
     columnEquality: ColumnMetrics.sameColumn
   };
 
@@ -231,7 +233,8 @@ class ReactDataGrid extends React.Component {
     let currentMetrics = {
       columns: metrics.columns,
       totalWidth: totalWidth,
-      minColumnWidth: metrics.minColumnWidth
+      minColumnWidth: metrics.minColumnWidth,
+      ignoreScrollbarSize: metrics.ignoreScrollbarSize
     };
     let updatedMetrics = ColumnMetrics.recalculate(currentMetrics);
     return updatedMetrics;
@@ -256,8 +259,9 @@ class ReactDataGrid extends React.Component {
     const gridColumns = this.setupGridColumns(props);
     return this.getColumnMetricsType({
       columns: gridColumns,
-      minColumnWidth: this.props.minColumnWidth,
-      totalWidth: props.minWidth
+      minColumnWidth: props.minColumnWidth,
+      totalWidth: props.minWidth,
+      ignoreScrollbarSize: props.ignoreScrollbarSize
     });
   };
 

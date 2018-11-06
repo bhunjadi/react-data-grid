@@ -53,7 +53,12 @@ function recalculate(metrics) {
   let columns = setColumnWidths(metrics.columns, metrics.totalWidth);
 
   let unallocatedWidth = columns.filter(c => c.width).reduce((w, column) => w - column.width, metrics.totalWidth);
-  unallocatedWidth -= getScrollbarSize();
+  if (!metrics.ignoreScrollbarSize) {
+    unallocatedWidth -= getScrollbarSize();
+  }
+
+  console.log(metrics, unallocatedWidth, getScrollbarSize());
+
   let width = columns.filter(c => c.width).reduce((w, column) => {
     return w + column.width;
   }, 0);

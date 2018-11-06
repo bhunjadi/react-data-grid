@@ -5,6 +5,8 @@ This is a forked [react-data-grid](https://github.com/adazzle/react-data-grid).
 Added features:
 - multiple column sorting
 - keeping all rows in DOM (no recycling)
+- option `ignoreScrollbarSize` which affects ColumnMetrics calculation (for grids without scrollbar)
+- column option `cellTitle` which can provide title for the cell
 
 ## Multiple column sorting
 
@@ -28,7 +30,7 @@ render() {
 
       // optionally (default: false)
       // this forces user to press Ctrl (or Cmd on Mac OS) to be able to do multiple sort, 
-      // without Ctrl it would overwrite the last value and act as single sort (but still pass an array to andleMultipleColumnsSort)
+      // without Ctrl it would overwrite the last value and act as single sort (but still pass an array to handleMultipleColumnsSort)
       requireCtrlForMultipleColumnsSort
       ...
     />
