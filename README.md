@@ -1,6 +1,6 @@
 # Forked React Data Grid
 
-This is a forked [react-data-grid](https://github.com/adazzle/react-data-grid).
+This is a forked [react-data-grid](https://github.com/adazzle/react-data-grid) (v5.0.4).
 
 Added features:
 - multiple column sorting
