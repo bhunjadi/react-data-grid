@@ -1,18 +1,18 @@
 # react-data-grid
 
-> The core of react-data-grid
+> The core of react-data-grid - forked version with multiple column sort, filtering improvements and option to keep all rows in DOM.
 
 
 ## Install
 
 ```sh
-npm install --save react-data-grid
+npm install --save @bhunjadi/react-data-grid
 ```
 
 ## Usage
 
 ```sh
-import ReactDataGrid from 'react-data-grid';
+import ReactDataGrid from '@bhunjadi/react-data-grid';
 
 const columns = [{ key: 'id', name: 'ID' }, { key: 'title', name: 'Title' }];
 const rows = [{ id: 1, title: 'Title 1' }, ...];
