@@ -12,3 +12,4 @@ lerna-debug.log
 .vscode
 lerna-debug.log
 package-lock.json
+.idea
