@@ -19,7 +19,7 @@ import {
   isSelectedCellEditable,
   selectedRangeIsSingleCell
 } from '../utils/SelectedCellUtils';
-import {isFunction} from 'common/utils';
+import { isFunction } from 'common/utils';
 import * as columnUtils from '../ColumnUtils';
 import * as keyCodes from '../KeyCodes';
 import { CellNavigationMode, EventTypes } from 'common/constants';
@@ -65,7 +65,6 @@ class InteractionMasks extends React.Component {
     onCellRangeSelectionCompleted: PropTypes.func,
     onCellsDragged: PropTypes.func,
     onDragHandleDoubleClick: PropTypes.func.isRequired,
-    onBeforeFocus: PropTypes.func.isRequired,
     scrollLeft: PropTypes.number.isRequired,
     prevScrollLeft: PropTypes.number.isRequired,
     scrollTop: PropTypes.number.isRequired,
@@ -397,7 +396,7 @@ class InteractionMasks extends React.Component {
   };
 
   isFocused = () => {
-    return document.activeElement === this.node;
+    return document.activeElement === this.selectionMask;
   };
 
   isFocusedOnBody = () => {
@@ -405,8 +404,8 @@ class InteractionMasks extends React.Component {
   };
 
   focus = () => {
-    if (this.node && !this.isFocused()) {
-      this.props.onBeforeFocus(() => this.node.focus());
+    if (this.selectionMask && !this.isFocused()) {
+      this.selectionMask.focus();
     }
   };
 
@@ -511,7 +510,7 @@ class InteractionMasks extends React.Component {
     });
   };
 
-  dragEnabled = () => {
+  isDragEnabled = () => {
     const { onGridRowsUpdated, onCellsDragged } = this.props;
     return this.isSelectedCellEditable() && (isFunction(onGridRowsUpdated) || isFunction(onCellsDragged));
   };
@@ -522,7 +521,14 @@ class InteractionMasks extends React.Component {
     const isViewportDragging = e && e.target && e.target.className;
     if (idx > -1 && isViewportDragging) {
       e.dataTransfer.effectAllowed = 'copy';
-      e.dataTransfer.setData('text/plain', JSON.stringify({ idx, rowIdx }));
+      // Setting data is required to make an element draggable in FF
+      const transferData = JSON.stringify({ idx, rowIdx });
+      try {
+        e.dataTransfer.setData('text/plain', transferData);
+      } catch (ex) {
+        // IE only supports 'text' and 'URL' for the 'type' argument
+        e.dataTransfer.setData('text', transferData);
+      }
       this.setState({
         draggedPosition: { idx, rowIdx }
       });
@@ -579,24 +585,37 @@ class InteractionMasks extends React.Component {
     this.closeEditor();
   };
 
+  setSelectionMaskRef = (node) => {
+    this.selectionMask = node;
+  };
+
+  getSelectionMaskProps = () => {
+    const { columns, getSelectedRowHeight, getSelectedRowTop, scrollLeft, scrollTop, prevScrollLeft, prevScrollTop } = this.props;
+    const { prevSelectedPosition } = this.state;
+
+    return {
+      columns,
+      scrollTop,
+      scrollLeft,
+      getSelectedRowHeight,
+      getSelectedRowTop,
+      prevScrollLeft,
+      prevScrollTop,
+      prevSelectedPosition,
+      isGroupedRow: this.isGroupedRowSelected(),
+      innerRef: this.setSelectionMaskRef
+    };
+  };
+
   getSingleCellSelectView = () => {
-    const { columns, getSelectedRowHeight, getSelectedRowTop, scrollLeft, scrollTop, prevScrollLeft, prevScrollTop} = this.props;
     const { selectedPosition } = this.state;
     return (
       !this.state.isEditorEnabled && this.isGridSelected() && (
         <SelectionMask
           selectedPosition={selectedPosition}
-          columns={columns}
-          isGroupedRow={this.isGroupedRowSelected()}
-          scrollTop={scrollTop}
-          scrollLeft={scrollLeft}
-          getSelectedRowHeight={getSelectedRowHeight}
-          getSelectedRowTop={getSelectedRowTop}
-          prevScrollLeft={prevScrollLeft}
-          prevScrollTop={prevScrollTop}
-          prevSelectedPosition={this.state.prevSelectedPosition}
+          {...this.getSelectionMaskProps()}
         >
-          {this.dragEnabled() && (
+          {this.isDragEnabled() && (
             <DragHandle
               onDragStart={this.handleDragStart}
               onDragEnd={this.handleDragEnd}
@@ -609,7 +628,7 @@ class InteractionMasks extends React.Component {
   };
 
   getCellRangeSelectView = () => {
-    const { columns, rowHeight, getSelectedRowHeight, getSelectedRowTop, scrollLeft, scrollTop, prevScrollLeft, prevScrollTop } = this.props;
+    const { columns, rowHeight } = this.props;
     return [
       <SelectionRangeMask
         key="range-mask"
@@ -620,15 +639,7 @@ class InteractionMasks extends React.Component {
       <SelectionMask
         key="selection-mask"
         selectedPosition={this.state.selectedRange.startCell}
-        columns={columns}
-        rowHeight={rowHeight}
-        scrollLeft={scrollLeft}
-        scrollTop={scrollTop}
-        getSelectedRowHeight={getSelectedRowHeight}
-        getSelectedRowTop={getSelectedRowTop}
-        prevScrollLeft={prevScrollLeft}
-        prevScrollTop={prevScrollTop}
-        prevSelectedPosition={this.state.prevSelectedPosition}
+        {...this.getSelectionMaskProps()}
       />
     ];
   };
@@ -640,10 +651,6 @@ class InteractionMasks extends React.Component {
     const columns = getSelectedRowColumns(selectedPosition.rowIdx);
     return (
       <div
-        ref={node => {
-          this.node = node;
-        }}
-        tabIndex="0"
         onKeyDown={this.onKeyDown}
         onFocus={this.onFocus}
       >
@@ -651,14 +658,14 @@ class InteractionMasks extends React.Component {
           <CopyMask
             copiedPosition={copiedPosition}
             rowHeight={rowHeight}
-            columns={columns}
+            columns={getSelectedRowColumns(copiedPosition.rowIdx)}
           />
         )}
         {draggedPosition && (
           <DragMask
             draggedPosition={draggedPosition}
             rowHeight={rowHeight}
-            columns={columns}
+            columns={getSelectedRowColumns(draggedPosition.rowIdx)}
           />
         )}
         {selectedRangeIsSingleCell(this.state.selectedRange) ?
