@@ -66,6 +66,7 @@ export interface ColumnMetrics<TRow> {
   totalColumnWidth: number;
   totalWidth: number;
   minColumnWidth: number;
+  ignoreScrollbarSize: boolean;
 }
 
 export interface RowData {
