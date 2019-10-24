@@ -156,6 +156,9 @@ export interface DataGridProps<R extends {}> {
   onCellDeSelected?(position: Position): void;
   /** called before cell is set active, returns a boolean to determine whether cell is editable */
   onCheckCellIsEditable?(event: CheckCellIsEditableEvent<R>): boolean;
+  /** Ignore scrollbar size in column metrics **/
+  ignoreScrollbarSize: boolean;
+
 }
 
 type DefaultProps = Pick<DataGridProps<{ id?: unknown }>,
@@ -171,6 +174,7 @@ type DefaultProps = Pick<DataGridProps<{ id?: unknown }>,
 | 'minColumnWidth'
 | 'columnEquality'
 | 'editorPortalTarget'
+| 'ignoreScrollbarSize'
 >;
 
 export interface DataGridState<R> {
@@ -208,7 +212,8 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     minColumnWidth: 80,
     selectAllRenderer: SelectAll,
     columnEquality: sameColumn,
-    editorPortalTarget: document.body
+    editorPortalTarget: document.body,
+    ignoreScrollbarSize: false
   };
 
   private readonly grid = React.createRef<HTMLDivElement>();
@@ -294,7 +299,8 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     const metrics = {
       columns: gridColumns,
       minColumnWidth: this.props.minColumnWidth,
-      totalWidth: this.props.minWidth || this.getTotalWidth()
+      totalWidth: this.props.minWidth || this.getTotalWidth(),
+      ignoreScrollbarSize: props.ignoreScrollbarSize
     };
     return recalculate(metrics);
   }

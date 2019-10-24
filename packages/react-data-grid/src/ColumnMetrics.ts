@@ -4,7 +4,7 @@ import getScrollbarSize from './getScrollbarSize';
 import { isColumnsImmutable } from './common/utils';
 import { Column, CalculatedColumn, ColumnList, ColumnMetrics } from './common/types';
 
-type Metrics<R> = Pick<ColumnMetrics<R>, 'totalWidth' | 'minColumnWidth'> & {
+type Metrics<R> = Pick<ColumnMetrics<R>, 'totalWidth' | 'minColumnWidth' | 'ignoreScrollbarSize'> & {
   columns: ColumnList<R>;
 };
 
@@ -57,7 +57,7 @@ export function recalculate<R>(metrics: Metrics<R>): ColumnMetrics<R> {
   setColumnWidths(columns, metrics.totalWidth);
 
   const width = getTotalColumnWidth(columns);
-  const unallocatedWidth = metrics.totalWidth - width - getScrollbarSize();
+  const unallocatedWidth = metrics.totalWidth - width - (!metrics.ignoreScrollbarSize ? getScrollbarSize() : 0);
 
   // compute width for columns which doesn't specify width
   setDefferedColumnWidths(columns, unallocatedWidth, metrics.minColumnWidth);
@@ -74,7 +74,8 @@ export function recalculate<R>(metrics: Metrics<R>): ColumnMetrics<R> {
     columns: calculatedColumns,
     totalWidth: metrics.totalWidth,
     totalColumnWidth: getTotalColumnWidth(columns),
-    minColumnWidth: metrics.minColumnWidth
+    minColumnWidth: metrics.minColumnWidth,
+    ignoreScrollbarSize: metrics.ignoreScrollbarSize
   };
 }
 
