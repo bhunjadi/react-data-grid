@@ -17,7 +17,8 @@ describe('Header Unit Tests', () => {
         minColumnWidth: 80,
         totalColumnWidth: 2600,
         totalWidth: 2600,
-        width: 2600
+        width: 2600,
+        ignoreScrollbarSize: false
       },
       cellMetaData: fakeCellMetaData,
       totalWidth: 1000,
@@ -68,7 +69,8 @@ describe('Header Unit Tests', () => {
         minColumnWidth: 81,
         totalColumnWidth: 2600,
         totalWidth: 2600,
-        width: 2601
+        width: 2601,
+        ignoreScrollbarSize: false,
       },
       rowHeight: 51,
       totalWidth: 2600,
@@ -89,7 +91,8 @@ describe('Header Unit Tests', () => {
         minColumnWidth: 80,
         totalColumnWidth: 2600,
         totalWidth: 2600,
-        width: 2600
+        width: 2600,
+        ignoreScrollbarSize: false
       },
       totalWidth: 1000,
       rowHeight: 50,
