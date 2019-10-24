@@ -223,8 +223,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     selectAllRenderer: SelectAll,
     columnEquality: sameColumn,
     editorPortalTarget: document.body,
-    ignoreScrollbarSize: false
-    editorPortalTarget: document.body,
+    ignoreScrollbarSize: false,
     keepAllRowsInDOM: false
   };
 
