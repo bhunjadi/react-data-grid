@@ -44,7 +44,8 @@ const viewportProps: ViewportProps<Row> = {
   enableCellAutoFocus: true,
   cellNavigationMode: CellNavigationMode.NONE,
   eventBus: new EventBus(),
-  editorPortalTarget: document.body
+  editorPortalTarget: document.body,
+  keepAllRowsInDOM: false
 };
 
 const viewportPropsNoColumns: ViewportProps<Row> = { // when creating anew plan copying from an existing one the viewport got initialised with 0 columns rendered
@@ -83,7 +84,8 @@ const viewportPropsNoColumns: ViewportProps<Row> = { // when creating anew plan 
   enableCellAutoFocus: true,
   cellNavigationMode: CellNavigationMode.NONE,
   eventBus: new EventBus(),
-  editorPortalTarget: document.body
+  editorPortalTarget: document.body,
+  keepAllRowsInDOM: false
 };
 
 describe('<Viewport />', () => {
@@ -171,6 +173,50 @@ describe('<Viewport />', () => {
       isScrolling: true,
       scrollDirection: SCROLL_DIRECTION.NONE,
       lastFrozenColumnIndex: -1
+    });
+  });
+
+  it('should render all rows when keepAllRowsInDOM is selected', () => {
+    const wrapper = shallow<ViewportProps<Row>>(<Viewport {...viewportProps} rowsCount={200} keepAllRowsInDOM />);
+    expect(wrapper.state()).toEqual({
+      colOverscanEndIdx: helpers.columns.length,
+      colOverscanStartIdx: 0,
+      colVisibleEndIdx: helpers.columns.length,
+      colVisibleStartIdx: 0,
+      rowOverscanEndIdx: 200,
+      rowOverscanStartIdx: 0,
+      height: viewportProps.minHeight,
+      scrollLeft: 0,
+      scrollTop: 0,
+      rowVisibleEndIdx: 14,
+      rowVisibleStartIdx: 0,
+      lastFrozenColumnIndex: 0,
+      isScrolling: false
+    });
+  });
+
+  it('should retain all rows when keepAllRowsInDOM is selected when scrolled', () => {
+    const wrapper = shallow<ViewportProps<Row>>(<Viewport {...viewportProps} rowsCount={200} keepAllRowsInDOM />);
+    const scrollLeft = 0;
+    const scrollTop = 200;
+    const canvas = wrapper.find(Canvas);
+    canvas.props().onScroll({ scrollTop, scrollLeft});
+
+    expect(wrapper.state()).toEqual({
+      colOverscanEndIdx: helpers.columns.length,
+      colOverscanStartIdx: 0,
+      colVisibleEndIdx: helpers.columns.length,
+      colVisibleStartIdx: 0,
+      rowOverscanEndIdx: 200,
+      rowOverscanStartIdx: 0,
+      height: viewportProps.minHeight,
+      scrollLeft: 0,
+      scrollTop: 200,
+      rowVisibleEndIdx: 21,
+      rowVisibleStartIdx: 6,
+      lastFrozenColumnIndex: -1,
+      isScrolling: true,
+      scrollDirection: SCROLL_DIRECTION.DOWN
     });
   });
 });

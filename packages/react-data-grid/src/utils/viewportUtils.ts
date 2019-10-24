@@ -6,11 +6,11 @@ export const OVERSCAN_ROWS = 2;
 
 const { min, max, ceil, round } = Math;
 
-export function getGridState<R>(props: { columnMetrics: ColumnMetrics<R>; rowsCount: number; minHeight: number; rowHeight: number; rowOffsetHeight: number }) {
+export function getGridState<R>(props: { columnMetrics: ColumnMetrics<R>; rowsCount: number; minHeight: number; rowHeight: number; rowOffsetHeight: number, keepAllRowsInDOM: boolean }) {
   const totalNumberColumns = props.columnMetrics.columns.length;
   const canvasHeight = props.minHeight - props.rowOffsetHeight;
   const renderedRowsCount = ceil((props.minHeight - props.rowHeight) / props.rowHeight);
-  const rowOverscanEndIdx = min(props.rowsCount, renderedRowsCount * 2);
+  const rowOverscanEndIdx = props.keepAllRowsInDOM ? props.rowsCount : min(renderedRowsCount * 2, props.rowsCount);
 
   return {
     rowOverscanStartIdx: 0,
@@ -114,11 +114,17 @@ export function getScrollDirection(lastScroll: ScrollState, scrollTop: number, s
   return SCROLL_DIRECTION.NONE;
 }
 
-export function getRowOverscanStartIdx(scrollDirection: SCROLL_DIRECTION, rowVisibleStartIdx: number): number {
+export function getRowOverscanStartIdx(scrollDirection: SCROLL_DIRECTION, rowVisibleStartIdx: number, keepAllRowsInDOM: boolean): number {
+  if (keepAllRowsInDOM) {
+    return 0;
+  }
   return scrollDirection === SCROLL_DIRECTION.UP ? max(0, rowVisibleStartIdx - OVERSCAN_ROWS) : max(0, rowVisibleStartIdx);
 }
 
-export function getRowOverscanEndIdx(scrollDirection: SCROLL_DIRECTION, rowVisibleEndIdx: number, rowsCount: number): number {
+export function getRowOverscanEndIdx(scrollDirection: SCROLL_DIRECTION, rowVisibleEndIdx: number, rowsCount: number, keepAllRowsInDOM: boolean): number {
+  if (keepAllRowsInDOM) {
+    return rowsCount;
+  }
   if (scrollDirection === SCROLL_DIRECTION.DOWN) {
     const overscanBoundaryIdx = rowVisibleEndIdx + OVERSCAN_ROWS;
     return min(overscanBoundaryIdx, rowsCount);

@@ -66,6 +66,7 @@ type SharedGridProps<R> = Pick<GridProps<R>,
 | 'interactionMasksMetaData'
 | 'RowsContainer'
 | 'editorPortalTarget'
+| 'keepAllRowsInDOM'
 >;
 
 export interface ViewportProps<R> extends SharedGridProps<R> {
@@ -129,11 +130,12 @@ export default class Viewport<R> extends React.Component<ViewportProps<R>, Viewp
 
   getNextScrollState({ scrollTop, scrollLeft, height, rowHeight, rowsCount }: ScrollParams): ScrollState {
     const isScrolling = true;
+    const {keepAllRowsInDOM} = this.props;
     const { columns } = this.props.columnMetrics;
     const scrollDirection = getScrollDirection(this.state, scrollTop, scrollLeft);
     const { rowVisibleStartIdx, rowVisibleEndIdx } = getVisibleBoundaries(height, rowHeight, scrollTop, rowsCount);
-    const rowOverscanStartIdx = getRowOverscanStartIdx(scrollDirection, rowVisibleStartIdx);
-    const rowOverscanEndIdx = getRowOverscanEndIdx(scrollDirection, rowVisibleEndIdx, rowsCount);
+    const rowOverscanStartIdx = getRowOverscanStartIdx(scrollDirection, rowVisibleStartIdx, keepAllRowsInDOM);
+    const rowOverscanEndIdx = getRowOverscanEndIdx(scrollDirection, rowVisibleEndIdx, rowsCount, keepAllRowsInDOM);
     const totalNumberColumns = columns.length;
     const lastFrozenColumnIndex = findLastFrozenColumnIndex(columns);
     const nonFrozenColVisibleStartIdx = getNonFrozenVisibleColStartIdx(columns, scrollLeft);
@@ -202,7 +204,8 @@ export default class Viewport<R> extends React.Component<ViewportProps<R>, Viewp
   componentWillReceiveProps(nextProps: ViewportProps<R>) {
     const { rowHeight, rowsCount } = nextProps;
     if (this.props.rowHeight !== nextProps.rowHeight
-      || this.props.minHeight !== nextProps.minHeight) {
+      || this.props.minHeight !== nextProps.minHeight
+      || this.props.keepAllRowsInDOM !== nextProps.keepAllRowsInDOM) {
       const { scrollTop, scrollLeft, height } = getGridState(nextProps);
       this.updateScroll({
         scrollTop,
