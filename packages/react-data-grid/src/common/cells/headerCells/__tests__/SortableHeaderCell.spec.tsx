@@ -35,14 +35,14 @@ describe('<SortableHeaderCell/>', () => {
   it('should toggle sort direction when clicked', () => {
     const { wrapper, props } = setup();
     wrapper.simulate('click');
-    expect(props.onSort).toHaveBeenCalledWith(props.column.key, DEFINE_SORT.ASC);
+    expect(props.onSort).toHaveBeenCalledWith(props.column.key, DEFINE_SORT.ASC, undefined);
   });
 
   describe('When sortDescendingFirst is true', () => {
     it('should set sort descending first when clicked', () => {
       const { wrapper, props } = setup({ sortDescendingFirst: true });
       wrapper.simulate('click');
-      expect(props.onSort).toHaveBeenCalledWith(props.column.key, DEFINE_SORT.DESC);
+      expect(props.onSort).toHaveBeenCalledWith(props.column.key, DEFINE_SORT.DESC, undefined);
     });
   });
 

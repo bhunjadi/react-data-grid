@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import MultipleColumnSort from '../scripts/example32-multiple-column-sort';
 
 export default class ExampleList extends React.Component {
   render() {
@@ -38,6 +39,7 @@ export default class ExampleList extends React.Component {
         <li><Link to="/examples/descendingFirstSortable">Descending First Sortable Example</Link></li>
         <li><Link to="/examples/selection-range-events">Selection Range Events Example</Link></li>
         <li><Link to="/examples/isScrolling">IsScrolling Example</Link></li>
+        <li><Link to="/examples/multiple-column-sort">Multiple Column Sort</Link></li>
       </ul>
     );
   }

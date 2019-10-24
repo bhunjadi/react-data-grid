@@ -5,10 +5,11 @@ import HeaderCell from './HeaderCell';
 import SortableHeaderCell from './common/cells/headerCells/SortableHeaderCell';
 import FilterableHeaderCell from './common/cells/headerCells/FilterableHeaderCell';
 import getScrollbarSize from './getScrollbarSize';
-import { isFrozen } from './ColumnUtils';
-import { HeaderRowType, HeaderCellType, DEFINE_SORT } from './common/enums';
-import { CalculatedColumn, AddFilterEvent } from './common/types';
-import { HeaderProps } from './Header';
+import {isFrozen} from './ColumnUtils';
+import {DEFINE_SORT, HeaderCellType, HeaderRowType} from './common/enums';
+import {AddFilterEvent, CalculatedColumn} from './common/types';
+import {HeaderProps} from './Header';
+import areSortArraysEqual from './utils/areSortArraysEqual';
 
 type SharedHeaderProps<R> = Pick<HeaderProps<R>,
 'draggableHeaderCell'
@@ -16,6 +17,7 @@ type SharedHeaderProps<R> = Pick<HeaderProps<R>,
 | 'sortColumn'
 | 'sortDirection'
 | 'onSort'
+| 'sort'
 | 'getValidFilterValues'
 >;
 
@@ -41,6 +43,7 @@ export default class HeaderRow<R> extends React.Component<HeaderRowProps<R>> {
       nextProps.width !== this.props.width
       || nextProps.height !== this.props.height
       || nextProps.columns !== this.props.columns
+      || !areSortArraysEqual<R>(nextProps.sort, this.props.sort)
       || !shallowEqual(nextProps.style, this.props.style)
       || this.props.sortColumn !== nextProps.sortColumn
       || this.props.sortDirection !== nextProps.sortDirection
@@ -71,8 +74,17 @@ export default class HeaderRow<R> extends React.Component<HeaderRowProps<R>> {
   }
 
   getSortableHeaderCell(column: CalculatedColumn<R>) {
-    const sortDirection = this.props.sortColumn === column.key && this.props.sortDirection || DEFINE_SORT.NONE;
-    const sortDescendingFirst = column.sortDescendingFirst || false;
+    const sortDescendingFirst = (column.sortDescendingFirst === undefined ) ? false : column.sortDescendingFirst;
+    let sortDirection;
+    if (this.props.sort) {
+      const columnSort = this.props.sort.find((s) => s.column === column.key);
+      sortDirection = columnSort ? columnSort.direction : DEFINE_SORT.NONE;
+    } else {
+      sortDirection = (this.props.sortColumn === column.key && this.props.sortDirection) || DEFINE_SORT.NONE;
+    }
+
+    // const sortDirection = this.props.sortColumn === column.key && this.props.sortDirection || DEFINE_SORT.NONE;
+    // const sortDescendingFirst = column.sortDescendingFirst || false;
     return (
       <SortableHeaderCell<R>
         column={column}

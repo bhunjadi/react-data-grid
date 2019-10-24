@@ -12,14 +12,14 @@ const SORT_TEXT = {
 export interface Props<R> {
   column: CalculatedColumn<R>;
   rowType: HeaderRowType;
-  onSort(columnKey: keyof R, direction: DEFINE_SORT): void;
+  onSort(columnKey: keyof R, direction: DEFINE_SORT, event: React.SyntheticEvent): void;
   sortDirection: DEFINE_SORT;
   sortDescendingFirst: boolean;
 }
 
 export default function SortableHeaderCell<R>(props: Props<R>) {
   const { column, rowType, onSort, sortDirection, sortDescendingFirst } = props;
-  function onClick() {
+  function onClick(event: React.SyntheticEvent) {
     let direction;
     switch (sortDirection) {
       case DEFINE_SORT.ASC:
@@ -32,7 +32,7 @@ export default function SortableHeaderCell<R>(props: Props<R>) {
         direction = sortDescendingFirst ? DEFINE_SORT.DESC : DEFINE_SORT.ASC;
         break;
     }
-    onSort(column.key, direction);
+    onSort(column.key, direction, event);
   }
 
   const { headerRenderer } = column;
