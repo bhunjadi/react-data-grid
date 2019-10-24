@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { KeyboardEvent, ReactNode } from 'react';
 import { List } from 'immutable';
-import { HeaderRowType, UpdateActions } from './enums';
+import {DEFINE_SORT, HeaderRowType, UpdateActions} from './enums';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
@@ -341,3 +341,10 @@ export interface RowSelectionParams<TRow> {
   rowIdx: number;
   row: TRow;
 }
+
+export interface SortItem<TRow> {
+  column: keyof TRow;
+  direction: DEFINE_SORT;
+}
+
+export type SortArray<TRow> = SortItem<TRow>[];

@@ -35,8 +35,10 @@ import {
   SubRowDetails,
   SubRowOptions,
   SelectedRow,
-  RowRendererProps
+  RowRendererProps, SortArray
 } from './common/types';
+import {isCtrlKeyHeldDown} from './common/utils/keyboardUtils';
+import areSortArraysEqual from './utils/areSortArraysEqual';
 
 export interface DataGridProps<R extends {}> {
   /** An array of objects representing each column on the grid. Can also be an ImmutableJS object */
@@ -68,6 +70,10 @@ export interface DataGridProps<R extends {}> {
   onClearFilters?(): void;
   /** Function called whenever grid is sorted*/
   onGridSort?(columnKey: keyof R, direction: DEFINE_SORT): void;
+  sort?: SortArray<R>;
+  requireCtrlForMultipleColumnsSort?: boolean;
+  onGridMultipleColumnsSort?(sort: SortArray<R>, columnKey: keyof R, direction: string): void;
+  multipleColumnsSort?: boolean,
   /** Function called whenever keyboard key is released */
   onGridKeyUp?(event: React.KeyboardEvent<HTMLDivElement>): void;
   /** Function called whenever keyboard key is pressed down */
@@ -187,6 +193,7 @@ export interface DataGridState<R> {
   canFilter?: boolean;
   sortColumn?: keyof R;
   sortDirection?: DEFINE_SORT;
+  sort?: SortArray<R>;
 }
 
 function isRowSelected<R>(keys: unknown, indexes: unknown, isSelectedKey: unknown, rowData: R, rowIdx: number) {
@@ -238,6 +245,10 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
       lastRowIdxUiSelected: -1
     };
 
+    if (this.props.multipleColumnsSort) {
+      initialState.sort = this.props.sort || [];
+    }
+
     if (this.props.sortColumn && this.props.sortDirection) {
       initialState.sortColumn = this.props.sortColumn;
       initialState.sortDirection = this.props.sortDirection;
@@ -267,6 +278,20 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     ) {
       const columnMetrics = this.createColumnMetrics(nextProps);
       this.setState({ columnMetrics });
+    }
+
+    if (nextProps.multipleColumnsSort) {
+      if (!areSortArraysEqual<R>(nextProps.sort, this.props.sort)) {
+        this.setState({
+          sort: nextProps.sort
+        });
+      }
+    } else if (nextProps.sortColumn !== this.props.sortColumn ||
+      nextProps.sortDirection !== this.props.sortDirection) {
+      this.setState({
+        sortColumn: nextProps.sortColumn,
+        sortDirection: nextProps.sortDirection
+      });
     }
   }
 
@@ -416,11 +441,38 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     this.handleGridRowsUpdated(commit.cellKey, targetRow, targetRow, commit.updated, UpdateActions.CELL_UPDATE);
   };
 
-  handleSort = (sortColumn: keyof R, sortDirection: DEFINE_SORT) => {
-    this.setState({ sortColumn, sortDirection }, () => {
-      const { onGridSort } = this.props;
-      if (onGridSort) {
-        onGridSort(sortColumn, sortDirection);
+  handleSort = (sortColumn: keyof R, sortDirection: DEFINE_SORT, event: React.MouseEvent) => {
+    const stateChange = {
+      sortDirection,
+      sortColumn,
+      sort: [] as SortArray<R>
+    };
+    const isMultiple = this.props.multipleColumnsSort;
+    if (isMultiple) {
+      let sort = this.props.requireCtrlForMultipleColumnsSort && !isCtrlKeyHeldDown(event) ? [] : (this.state.sort || []).slice();
+      if (sortDirection === DEFINE_SORT.NONE) {
+        sort = sort.filter((item) => item.column !== sortColumn);
+      } else {
+        const sortData = {column: sortColumn, direction: sortDirection};
+        const columnIndex = sort.findIndex(s => s.column === sortColumn);
+        if (columnIndex >= 0) {
+          // Overwrite the object, because shallowEqual is used for sort array comparison in shouldComponentUpdate
+          sort[columnIndex] = sortData;
+        } else {
+          sort.push(sortData);
+        }
+      }
+      stateChange.sort = sort;
+    }
+
+    this.setState(stateChange, () => {
+      if (isMultiple) {
+        if (this.props.onGridMultipleColumnsSort) {
+          this.props.onGridMultipleColumnsSort(stateChange.sort, sortColumn, sortDirection);
+        }
+      }
+      else if (this.props.onGridSort) {
+        this.props.onGridSort(sortColumn, sortDirection);
       }
     });
   };
@@ -720,6 +772,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
           rowOffsetHeight={this.getRowOffsetHeight()}
           sortColumn={this.state.sortColumn}
           sortDirection={this.state.sortDirection}
+          sort={this.state.sort}
           onSort={this.handleSort}
           minHeight={this.props.minHeight}
           totalWidth={gridWidth}

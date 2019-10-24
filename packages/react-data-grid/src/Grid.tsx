@@ -4,7 +4,13 @@ import { isValidElementType } from 'react-is';
 import Header from './Header';
 import Viewport, { ScrollState } from './Viewport';
 import { isFrozen } from './ColumnUtils';
-import { HeaderRowData, CellMetaData, RowSelection, InteractionMasksMetaData, SelectedRow } from './common/types';
+import {
+  HeaderRowData,
+  CellMetaData,
+  RowSelection,
+  InteractionMasksMetaData,
+  SelectedRow
+} from './common/types';
 import { DEFINE_SORT } from './common/enums';
 import { DataGridProps, DataGridState } from './ReactDataGrid';
 import { EventBus } from './masks';
@@ -19,6 +25,7 @@ type SharedDataGridProps<R> = Pick<DataGridProps<R>,
 | 'rowRenderer'
 | 'rowGroupRenderer'
 | 'minHeight'
+| 'sort'
 | 'scrollToRowIndex'
 | 'contextMenu'
 | 'enableCellSelect'
@@ -45,7 +52,7 @@ export interface GridProps<R> extends SharedDataGridProps<R>, SharedDataGridStat
   selectedRows?: SelectedRow<R>[];
   rowSelection?: RowSelection;
   rowOffsetHeight: number;
-  onSort(columnKey: keyof R, sortDirection: DEFINE_SORT): void;
+  onSort(columnKey: keyof R, sortDirection: DEFINE_SORT, event: React.MouseEvent): void;
   totalWidth: number | string;
   onViewportKeydown(e: React.KeyboardEvent<HTMLDivElement>): void;
   onViewportKeyup(e: React.KeyboardEvent<HTMLDivElement>): void;
@@ -110,6 +117,7 @@ export default class Grid<R> extends React.Component<GridProps<R>> {
           sortColumn={this.props.sortColumn}
           sortDirection={this.props.sortDirection}
           draggableHeaderCell={this.props.draggableHeaderCell}
+          sort={this.props.sort}
           onSort={this.props.onSort}
           onHeaderDrop={this.props.onHeaderDrop}
           getValidFilterValues={this.props.getValidFilterValues}

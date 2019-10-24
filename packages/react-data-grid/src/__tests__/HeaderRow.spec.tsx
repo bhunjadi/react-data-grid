@@ -12,6 +12,8 @@ describe('Header Row Unit Tests', () => {
   const defaultProps = {
     rowType: HeaderRowType.HEADER,
     columns: helpers.columns,
+    sort: undefined,
+
     onColumnResize() { },
     onColumnResizeEnd() { },
     onSort: jest.fn(),
@@ -23,8 +25,8 @@ describe('Header Row Unit Tests', () => {
   };
 
   const setup = (testProps?: Partial<HeaderRowProps<Row>>) => {
-    const props: HeaderRowProps<Row> = { ...defaultProps, ...testProps };
-    const wrapper = shallow(<HeaderRow {...props} />);
+    const props: HeaderRowProps<Row> = { ...defaultProps, ...testProps } as HeaderRowProps<Row>;
+    const wrapper = shallow<HeaderRow<Row>>(<HeaderRow<Row> {...props} />);
     const headerCells = wrapper.find(HeaderCell);
     return { wrapper, headerCells, props };
   };
@@ -122,9 +124,39 @@ describe('Header Row Unit Tests', () => {
     });
   });
 
+  describe('When multiple columns sort is enabled', () => {
+    const sort = [{
+      column: 'count' as const,
+      direction: DEFINE_SORT.DESC
+    }, {
+      column: 'title' as const,
+      direction: DEFINE_SORT.ASC
+    }];
+
+    beforeEach(() => {
+      defaultProps.columns.forEach((col) => {
+        col.sortable = true;
+      });
+    });
+
+    afterEach(() => {
+      defaultProps.columns.forEach((col) => {
+        col.sortable = false;
+      });
+      delete defaultProps.sort;
+    });
+
+    it('uses sort property to pass sortDirection to multiple sortable columns', () => {
+      const {headerCells} = setup({sort});
+      expect((headerCells.at(0).props().renderer as React.ReactElement).props.sortDirection).toBe(DEFINE_SORT.NONE);
+      expect((headerCells.at(1).props().renderer as React.ReactElement).props.sortDirection).toBe(DEFINE_SORT.ASC);
+      expect((headerCells.at(2).props().renderer as React.ReactElement).props.sortDirection).toBe(DEFINE_SORT.DESC);
+    });
+  });
+
   describe('Rendering HeaderRow component', () => {
     const renderComponent = (props: HeaderRowProps<Row>) => {
-      return shallow(<HeaderRow {...props} />);
+      return shallow<HeaderRow<Row>>(<HeaderRow<Row> {...props} />);
     };
 
     const requiredProps: HeaderRowProps<Row> = {

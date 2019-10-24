@@ -7,6 +7,12 @@ export function isKeyPrintable(keycode: number): boolean {
     || (keycode > 218 && keycode < 223); // [\]' (in order)
 }
 
-export function isCtrlKeyHeldDown(e: React.KeyboardEvent): boolean {
-  return (e.ctrlKey === true || e.metaKey === true) && e.key !== 'Control';
+type CtrlKeyDownChecker = {
+  ctrlKey: boolean;
+  metaKey: boolean;
+  key?: string;
+};
+
+export function isCtrlKeyHeldDown(event: CtrlKeyDownChecker): boolean {
+  return (event.ctrlKey === true || event.metaKey === true) && event.key !== 'Control';
 }
