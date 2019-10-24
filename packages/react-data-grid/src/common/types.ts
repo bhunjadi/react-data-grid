@@ -7,6 +7,10 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type SelectedRow<TRow> = TRow & { isSelected: boolean };
 
+export interface CellTitleFunction {
+  (item: any): string;
+}
+
 interface ColumnValue<TRow, TDependentValue = unknown, TField extends keyof TRow = keyof TRow> {
   /** The name of the column. By default it will be displayed in the header cell */
   name: string;
@@ -42,6 +46,8 @@ interface ColumnValue<TRow, TDependentValue = unknown, TField extends keyof TRow
   headerRenderer?: React.ReactElement | React.ComponentType<HeaderRowProps<TRow>>;
   /** Component to be used to filter the data of the column */
   filterRenderer?: React.ComponentType<FilterRendererProps<TRow, TDependentValue>>;
+  /** Cell title **/
+  cellTitle?: number | string | boolean | CellTitleFunction;
 
   // TODO: these props are only used by checkbox editor and we should remove them
   onCellChange?(rowIdx: number, key: keyof TRow, dependentValues: TDependentValue, event: React.SyntheticEvent): void;

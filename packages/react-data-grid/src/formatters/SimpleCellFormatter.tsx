@@ -5,5 +5,5 @@ export interface SimpleCellFormatterProps {
 }
 
 export function SimpleCellFormatter({ value }: SimpleCellFormatterProps) {
-  return <div title={String(value)}>{value}</div>;
+  return <div>{value}</div>;
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { SubRowOptions, ColumnEventInfo, CellRenderer, CellRendererProps } from './common/types';
+import {SubRowOptions, ColumnEventInfo, CellRenderer, CellRendererProps, CellTitleFunction} from './common/types';
 import CellActions from './Cell/CellActions';
 import CellExpand from './Cell/CellExpander';
 import CellContent from './Cell/CellContent';
 import { isFrozen } from './ColumnUtils';
+import {isFunction} from "./common/utils";
 
 function getSubRowOptions<R>({ rowIdx, idx, rowData, expandableOptions: expandArgs }: Props<R>): SubRowOptions<R> {
   return { rowIdx, idx, rowData, expandArgs };
@@ -163,6 +164,25 @@ export default class Cell<R> extends React.PureComponent<Props<R>> implements Ce
     return allEvents;
   }
 
+  getCellTitle = (): string | undefined => {
+    const {value, column, rowData} = this.props;
+    if (isFunction(column.cellTitle as CellTitleFunction)) {
+      return (column.cellTitle as CellTitleFunction)({
+        value,
+        row: rowData,
+        column
+      });
+    } else if (typeof column.cellTitle === 'string' || typeof column.cellTitle === 'number') {
+      return `${column.cellTitle}`;
+    } else if (column.cellTitle === false) {
+      return undefined;
+    } else if (typeof value === 'string' || typeof value === 'number') {
+      return '' + value;
+    }
+    return undefined;
+  };
+
+
   render() {
     const { column, children, expandableOptions, cellMetaData, rowData } = this.props;
     if (column.hidden) {
@@ -186,6 +206,7 @@ export default class Cell<R> extends React.PureComponent<Props<R>> implements Ce
         className={className}
         style={style}
         {...events}
+        title={this.getCellTitle()}
       >
         <CellActions<R>
           column={column}
