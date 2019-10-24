@@ -159,6 +159,8 @@ export interface DataGridProps<R extends {}> {
   /** Ignore scrollbar size in column metrics **/
   ignoreScrollbarSize: boolean;
 
+  /** Does not clear rows that are in viewport **/
+  keepAllRowsInDOM: boolean;
 }
 
 type DefaultProps = Pick<DataGridProps<{ id?: unknown }>,
@@ -175,6 +177,7 @@ type DefaultProps = Pick<DataGridProps<{ id?: unknown }>,
 | 'columnEquality'
 | 'editorPortalTarget'
 | 'ignoreScrollbarSize'
+| 'keepAllRowsInDOM'
 >;
 
 export interface DataGridState<R> {
@@ -214,6 +217,8 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     columnEquality: sameColumn,
     editorPortalTarget: document.body,
     ignoreScrollbarSize: false
+    editorPortalTarget: document.body,
+    keepAllRowsInDOM: false
   };
 
   private readonly grid = React.createRef<HTMLDivElement>();
@@ -734,6 +739,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
           getSubRowDetails={this.props.getSubRowDetails}
           editorPortalTarget={this.props.editorPortalTarget}
           interactionMasksMetaData={interactionMasksMetaData}
+          keepAllRowsInDOM={this.props.keepAllRowsInDOM}
         />
       </div>
     );
