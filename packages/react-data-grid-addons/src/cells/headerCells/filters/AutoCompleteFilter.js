@@ -21,7 +21,7 @@ export default class AutoCompleteFilter extends React.Component {
     this.state = { options: this.getOptions(), rawValue: '', placeholder: 'Search' };
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     this.setState({ options: this.getOptions(newProps) });
   }
 

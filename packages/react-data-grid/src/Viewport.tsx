@@ -199,7 +199,7 @@ export default class Viewport<R> extends React.Component<ViewportProps<R>, Viewp
     }
   };
 
-  componentWillReceiveProps(nextProps: ViewportProps<R>) {
+  UNSAFE_componentWillReceiveProps(nextProps: ViewportProps<R>) {
     const { rowHeight, rowsCount } = nextProps;
     if (this.props.rowHeight !== nextProps.rowHeight
       || this.props.minHeight !== nextProps.minHeight) {

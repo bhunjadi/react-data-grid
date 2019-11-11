@@ -6,7 +6,7 @@ import exampleWrapper from '../components/exampleWrapper';
 
 class RowRenderer extends React.Component {
   static propTypes = {
-    idx: PropTypes.string.isRequired,
+    idx: PropTypes.number.isRequired,
     renderBaseRow: PropTypes.func.isRequired
   };
 
