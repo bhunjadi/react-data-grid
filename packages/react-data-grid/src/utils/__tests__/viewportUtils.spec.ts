@@ -47,12 +47,14 @@ describe('viewportUtils', () => {
           width: 0,
           totalColumnWidth: 0,
           totalWidth: 0,
-          minColumnWidth: 0
+          minColumnWidth: 0,
+          ignoreScrollbarSize: false
         },
         minHeight: 100,
         rowOffsetHeight: 5,
         rowHeight: 20,
         rowsCount: 100,
+        keepAllRowsInDOM: false,
         ...propsOverrides
       };
       const state = getGridState(props);
@@ -102,7 +104,8 @@ describe('viewportUtils', () => {
         width: 0,
         totalColumnWidth: 0,
         totalWidth: 0,
-        minColumnWidth: 0
+        minColumnWidth: 0,
+        ignoreScrollbarSize: false
       };
       return getNonFrozenRenderedColumnCount(columnMetrics, width, scrollLeft);
     };
@@ -286,23 +289,23 @@ describe('viewportUtils', () => {
     describe('getRowOverscanStartIdx', () => {
       const rowVisibleStartIdx = 2;
       it('should return rowVisibleStartIdx - OVERSCAN_ROWS if scroll direction is upwards', () => {
-        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.UP, rowVisibleStartIdx)).toBe(rowVisibleStartIdx - OVERSCAN_ROWS);
+        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.UP, rowVisibleStartIdx, false)).toBe(rowVisibleStartIdx - OVERSCAN_ROWS);
       });
 
       it('should return rowVisibleStartIdx if scroll direction is left', () => {
-        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.LEFT, rowVisibleStartIdx)).toBe(rowVisibleStartIdx);
+        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.LEFT, rowVisibleStartIdx, false)).toBe(rowVisibleStartIdx);
       });
 
       it('should return rowVisibleStartIdx if scroll direction is right', () => {
-        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.RIGHT, rowVisibleStartIdx)).toBe(rowVisibleStartIdx);
+        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.RIGHT, rowVisibleStartIdx, false)).toBe(rowVisibleStartIdx);
       });
 
       it('should return rowVisibleStartIdx if scroll direction is downwards', () => {
-        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.DOWN, rowVisibleStartIdx)).toBe(rowVisibleStartIdx);
+        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.DOWN, rowVisibleStartIdx, false)).toBe(rowVisibleStartIdx);
       });
 
       it('should return 0 if rowVisibleStartIdx negative', () => {
-        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.DOWN, -1)).toBe(0);
+        expect(getRowOverscanStartIdx(SCROLL_DIRECTION.DOWN, -1, false)).toBe(0);
       });
     });
 
@@ -310,23 +313,23 @@ describe('viewportUtils', () => {
       const rowVisibleEndIdx = 20;
       const totalNumberOfRows = 30;
       it('should return rowVisibleStartIdx + OVERSCAN_ROWS if scroll direction is downward', () => {
-        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.DOWN, rowVisibleEndIdx, totalNumberOfRows)).toBe(rowVisibleEndIdx + OVERSCAN_ROWS);
+        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.DOWN, rowVisibleEndIdx, totalNumberOfRows, false)).toBe(rowVisibleEndIdx + OVERSCAN_ROWS);
       });
 
       it('should return totalNumberOfRows if scroll direction is downward and rowVisibleEndIdx == totalNumberRows', () => {
-        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.DOWN, totalNumberOfRows, totalNumberOfRows)).toBe(totalNumberOfRows);
+        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.DOWN, totalNumberOfRows, totalNumberOfRows, false)).toBe(totalNumberOfRows);
       });
 
       it('should return rowVisibleEndIdx if scroll direction is left', () => {
-        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.LEFT, rowVisibleEndIdx, totalNumberOfRows)).toBe(rowVisibleEndIdx);
+        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.LEFT, rowVisibleEndIdx, totalNumberOfRows, false)).toBe(rowVisibleEndIdx);
       });
 
       it('should return rowVisibleEndIdx if scroll direction is right', () => {
-        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.RIGHT, rowVisibleEndIdx, totalNumberOfRows)).toBe(rowVisibleEndIdx);
+        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.RIGHT, rowVisibleEndIdx, totalNumberOfRows, false)).toBe(rowVisibleEndIdx);
       });
 
       it('should return rowVisibleEndIdx if scroll direction is upwards', () => {
-        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.UP, rowVisibleEndIdx, totalNumberOfRows)).toBe(rowVisibleEndIdx);
+        expect(getRowOverscanEndIdx(SCROLL_DIRECTION.UP, rowVisibleEndIdx, totalNumberOfRows, false)).toBe(rowVisibleEndIdx);
       });
     });
 

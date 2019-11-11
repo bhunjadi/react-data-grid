@@ -16,7 +16,8 @@ const viewportProps: ViewportProps<Row> = {
     minColumnWidth: 80,
     totalWidth: 2600,
     totalColumnWidth: 2600,
-    width: 2600
+    width: 2600,
+    ignoreScrollbarSize: false
   },
   rowGetter() { return {}; },
   rowsCount: 50,
@@ -56,7 +57,8 @@ const viewportPropsNoColumns: ViewportProps<Row> = { // when creating anew plan 
     minColumnWidth: 80,
     totalColumnWidth: 0,
     totalWidth: 0,
-    width: 2010
+    width: 2010,
+    ignoreScrollbarSize: false
   },
   rowGetter() { return {}; },
   rowsCount: 50,
@@ -200,7 +202,7 @@ describe('<Viewport />', () => {
     const scrollLeft = 0;
     const scrollTop = 200;
     const canvas = wrapper.find(Canvas);
-    canvas.props().onScroll({ scrollTop, scrollLeft});
+    canvas.props().onScroll({ scrollTop, scrollLeft });
 
     expect(wrapper.state()).toEqual({
       colOverscanEndIdx: helpers.columns.length,

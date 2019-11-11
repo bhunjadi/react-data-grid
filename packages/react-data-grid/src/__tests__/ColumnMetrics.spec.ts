@@ -36,7 +36,7 @@ describe('Column Metrics Tests', () => {
 
       it('should set the unset column widths based on the total width', () => {
         const columns = getInitialColumns();
-        const metrics = ColumnMetrics.recalculate({ columns, totalWidth, minColumnWidth: 50 });
+        const metrics = ColumnMetrics.recalculate({ columns, totalWidth, minColumnWidth: 50, ignoreScrollbarSize: false });
         const expectedCalculatedWidth = getAvailableWidthPerColumn(totalWidth, columns[0].width!, 2);
 
         expect(metrics.columns[0].width).toEqual(60);
@@ -46,7 +46,7 @@ describe('Column Metrics Tests', () => {
 
       it('should set the column left based on the column widths', () => {
         const columns = getInitialColumns();
-        const metrics = ColumnMetrics.recalculate({ columns, totalWidth, minColumnWidth: 50 });
+        const metrics = ColumnMetrics.recalculate({ columns, totalWidth, minColumnWidth: 50, ignoreScrollbarSize: false });
         const expectedLeftValue = columns[0].width! + getAvailableWidthPerColumn(totalWidth, columns[0].width!, 2);
 
         expect(metrics.columns[0].left).toEqual(0);
@@ -60,7 +60,7 @@ describe('Column Metrics Tests', () => {
         const thirdFrozenColumn: Column<Row> = { key: 'frozenColumn3', name: 'frozenColumn3', frozen: true };
         const columns = [...getInitialColumns(), secondFrozenColumn, thirdFrozenColumn];
         columns.splice(2, 0, firstFrozenColumn);
-        const metrics = ColumnMetrics.recalculate({ columns, totalWidth, minColumnWidth: 50 });
+        const metrics = ColumnMetrics.recalculate({ columns, totalWidth, minColumnWidth: 50, ignoreScrollbarSize: false });
         expect(metrics.columns[0]).toMatchObject(firstFrozenColumn);
         expect(metrics.columns[1]).toMatchObject(secondFrozenColumn);
         expect(metrics.columns[2]).toMatchObject(thirdFrozenColumn);
