@@ -268,7 +268,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     window.removeEventListener('mouseup', this.handleWindowMouseUp);
   }
 
-  componentWillReceiveProps(nextProps: DataGridProps<R>) {
+  UNSAFE_componentWillReceiveProps(nextProps: DataGridProps<R>) {
     if (
       nextProps.columns && (
         !sameColumns(this.props.columns, nextProps.columns, this.props.columnEquality)

@@ -37,7 +37,7 @@ export default class Header<R> extends React.Component<HeaderProps<R>, State<R>>
   private readonly row = React.createRef<HeaderRow<R>>();
   private readonly filterRow = React.createRef<HeaderRow<R>>();
 
-  componentWillReceiveProps(): void {
+  UNSAFE_componentWillReceiveProps(): void {
     this.setState({ resizing: null });
   }
 
