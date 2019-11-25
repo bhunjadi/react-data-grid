@@ -35,7 +35,8 @@ import {
   SubRowDetails,
   SubRowOptions,
   SelectedRow,
-  RowRendererProps
+  RowRendererProps,
+  GridFilters
 } from './common/types';
 
 export interface DataGridProps<R extends {}> {
@@ -64,6 +65,7 @@ export interface DataGridProps<R extends {}> {
   onRowClick?(rowIdx: number, rowData: R, column: CalculatedColumn<R>): void;
   /** Function called whenever row is double clicked */
   onRowDoubleClick?(rowIdx: number, rowData: R, column: CalculatedColumn<R>): void;
+  filters?: GridFilters<R>;
   onAddFilter?(event: AddFilterEvent<R>): void;
   onClearFilters?(): void;
   /** Function called whenever grid is sorted*/
@@ -570,11 +572,12 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
   }
 
   getHeaderRows() {
-    const { headerRowHeight, rowHeight, onAddFilter, headerFiltersHeight } = this.props;
+    const { headerRowHeight, rowHeight, onAddFilter, filters, headerFiltersHeight } = this.props;
     const rows: HeaderRowData<R>[] = [{ height: headerRowHeight || rowHeight, rowType: HeaderRowType.HEADER }];
     if (this.state.canFilter === true) {
       rows.push({
         rowType: HeaderRowType.FILTER,
+        filters,
         filterable: true,
         onFilterChange: onAddFilter,
         height: headerFiltersHeight

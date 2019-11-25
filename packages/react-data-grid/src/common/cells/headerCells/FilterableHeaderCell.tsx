@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
-import { FilterRendererProps } from '../../types';
+import { FilterRendererProps, CalculatedColumn, GridFilters } from '../../types';
 
-export default function FilterableHeaderCell<R>({ column, onChange }: FilterRendererProps<R>) {
-  const [filterTerm, setFilterTerm] = useState('');
+function getInputValue<R>(column: CalculatedColumn<R>, filters?: GridFilters<R>) {
+  if (!filters) {
+    return;
+  }
+
+  return filters[column.key as string] || '';
+}
+
+export default function FilterableHeaderCell<R>({ column, filters, onChange }: FilterRendererProps<R>) {
+  const [filterTerm, setFilterTerm] = useState(() => getInputValue(column, filters));
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
