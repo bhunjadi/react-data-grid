@@ -99,6 +99,7 @@ export default class Header<R> extends React.Component<HeaderProps<R>, State<R>>
           draggableHeaderCell={this.props.draggableHeaderCell}
           filterable={row.filterable}
           onFilterChange={row.onFilterChange}
+          filters={row.filters}
           onHeaderDrop={this.props.onHeaderDrop}
           sortColumn={this.props.sortColumn}
           sortDirection={this.props.sortDirection}

@@ -191,6 +191,7 @@ export interface RowRendererProps<TRow> {
 
 export interface FilterRendererProps<TRow, TFilterValue = unknown> {
   column: CalculatedColumn<TRow>;
+  filters?: GridFilters<TRow>;
   onChange?(event: AddFilterEvent<TRow>): void;
   /** TODO: remove */
   getValidFilterValues?(columnKey: keyof TRow): TFilterValue;
@@ -291,6 +292,7 @@ export interface HeaderRowData<TRow> {
   height: number;
   filterable?: boolean;
   onFilterChange?(args: AddFilterEvent<TRow>): void;
+  filters?: GridFilters<TRow>;
 }
 
 export interface AddFilterEvent<TRow> {
@@ -348,3 +350,7 @@ export interface SortItem<TRow> {
 }
 
 export type SortArray<TRow> = SortItem<TRow>[];
+
+export interface GridFilters<TRow> {
+  [key: string]: any;
+}
