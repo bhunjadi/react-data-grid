@@ -32,6 +32,7 @@ type SharedViewportProps<R> = Pick<ViewportProps<R>,
 | 'RowsContainer'
 | 'editorPortalTarget'
 | 'interactionMasksMetaData'
+| 'cellContext'
 >;
 
 type SharedViewportState = Pick<ViewportState,
@@ -55,7 +56,7 @@ export interface CanvasProps<R> extends SharedViewportProps<R>, SharedViewportSt
   onScroll(position: ScrollPosition): void;
 }
 
-type RendererProps<R> = Pick<CanvasProps<R>, 'rowVisibleStartIdx' | 'rowVisibleEndIdx' | 'columns' | 'cellMetaData' | 'colVisibleStartIdx' | 'colVisibleEndIdx' | 'colOverscanEndIdx' | 'colOverscanStartIdx' | 'lastFrozenColumnIndex' | 'isScrolling'> & {
+type RendererProps<R> = Pick<CanvasProps<R>, 'rowVisibleStartIdx' | 'rowVisibleEndIdx' | 'columns' | 'cellMetaData' | 'colVisibleStartIdx' | 'colVisibleEndIdx' | 'colOverscanEndIdx' | 'colOverscanStartIdx' | 'lastFrozenColumnIndex' | 'isScrolling' | 'cellContext'> & {
   ref(row: (RowRenderer<R> & React.Component<RowRendererProps<R>>) | null): void;
   key: number;
   idx: number;
@@ -317,7 +318,8 @@ export default class Canvas<R> extends React.PureComponent<CanvasProps<R>> {
           colOverscanEndIdx,
           lastFrozenColumnIndex,
           isScrolling: this.props.isScrolling,
-          scrollLeft: this._scroll.scrollLeft
+          scrollLeft: this._scroll.scrollLeft,
+          cellContext: this.props.cellContext
         });
       });
 

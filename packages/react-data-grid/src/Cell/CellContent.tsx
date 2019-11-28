@@ -17,6 +17,7 @@ export type CellContentProps<R> = Pick<CellProps<R>,
 | 'height'
 | 'cellControls'
 | 'cellMetaData'
+| 'context'
 >;
 
 

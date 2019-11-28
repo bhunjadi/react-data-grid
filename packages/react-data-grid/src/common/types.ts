@@ -170,6 +170,7 @@ export interface CellRendererProps<TRow, TValue = unknown> {
   isRowSelected?: boolean;
   expandableOptions?: ExpandableOptions;
   lastFrozenColumnIndex?: number;
+  context?: CellContext;
 }
 
 export interface RowRendererProps<TRow> {
@@ -187,6 +188,7 @@ export interface RowRendererProps<TRow> {
   isScrolling: boolean;
   scrollLeft: number;
   lastFrozenColumnIndex?: number;
+  cellContext?: CellContext;
 }
 
 export interface FilterRendererProps<TRow, TFilterValue = unknown> {
@@ -363,3 +365,5 @@ export interface SortableCellRendererProps<R> {
 }
 
 export type SortableCellContentRenderer<R> = (props: SortableCellRendererProps<R>) => ReactElement;
+
+export type CellContext = any;
