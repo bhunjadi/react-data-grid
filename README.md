@@ -1,3 +1,58 @@
+# Forked React Data Grid
+
+This is a forked [react-data-grid](https://github.com/adazzle/react-data-grid) (v7.0.0-alpha.22).
+
+Added features:
+- multiple column sorting
+- keeping all rows in DOM (no recycling)
+- option `ignoreScrollbarSize` which affects ColumnMetrics calculation (for grids without scrollbar)
+- column option `cellTitle` which can provide title for the cell
+- passing initial filters to grid
+- `cellContext` prop which is passed to cell formatter
+- `renderSortableCellContent` prop overrides default content of `SortableHeaderCell` allowing customization of sort arrow
+
+## Multiple column sorting
+
+Example
+
+```js
+
+handleMultipleColumnSort(sort) {
+  /**
+   * sort will be an array
+   * for empty sort, sort will still be array with length === 0
+   * each object of array is like {column, direction} where column is column.key from columns definition
+   * */
+}
+
+render() {
+  return (
+    <ReactDataGrid
+      multipleColumnsSort
+      onGridMultipleColumnsSort={this.handleMultipleColumnSort}
+
+      // optionally (default: false)
+      // this forces user to press Ctrl (or Cmd on Mac OS) to be able to do multiple sort, 
+      // without Ctrl it would overwrite the last value and act as single sort (but still pass an array to handleMultipleColumnsSort)
+      requireCtrlForMultipleColumnsSort
+      ...
+    />
+  );
+```
+
+## Keep all rows in DOM
+
+Example
+
+```js
+<ReactDataGrid
+  keepAllRowsInDOM
+  ...
+>
+```
+
+Can be useful if for example you are using expandable rows, etc.
+
 # React Data Grid [![npm-badge]][npm-url] [![azure-badge]][azure-url] [![coverage-badge]][azure-url]
 
 [npm-badge]: https://img.shields.io/npm/v/react-data-grid/next.svg
