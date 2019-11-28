@@ -39,7 +39,7 @@ type SharedDataGridProps<R> = Pick<DataGridProps<R>,
 | 'editorPortalTarget'
 | 'keepAllRowsInDOM'
 | 'renderSortableCellContent'
-| 'cellContext'
+| 'context'
 >;
 
 type SharedDataGridState<R> = Pick<DataGridState<R>,
@@ -162,7 +162,7 @@ export default class Grid<R> extends React.Component<GridProps<R>> {
               RowsContainer={this.props.RowsContainer}
               editorPortalTarget={this.props.editorPortalTarget}
               keepAllRowsInDOM={this.props.keepAllRowsInDOM}
-              cellContext={this.props.cellContext}
+              context={this.props.context}
             />
           </div>
         )}

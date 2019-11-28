@@ -60,7 +60,7 @@ export default class Row<R> extends React.Component<RowRendererProps<R>> impleme
       isScrolling,
       scrollLeft,
       lastFrozenColumnIndex,
-      context: this.props.cellContext
+      context: this.props.context
     };
 
     return <Renderer key={`${key as keyof R}-${idx}`} {...cellProps} />; // FIXME: fix key type

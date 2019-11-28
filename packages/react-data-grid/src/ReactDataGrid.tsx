@@ -39,7 +39,7 @@ import {
   SortArray,
   GridFilters,
   SortableCellContentRenderer,
-  CellContext
+  GridContext
 } from './common/types';
 import {isCtrlKeyHeldDown} from './common/utils/keyboardUtils';
 import areSortArraysEqual from './utils/areSortArraysEqual';
@@ -175,7 +175,7 @@ export interface DataGridProps<R extends {}> {
   /** Does not clear rows that are in viewport **/
   keepAllRowsInDOM: boolean;
   /** Context to be passed to each cell */
-  cellContext?: CellContext;
+  context?: GridContext;
 }
 
 type DefaultProps = Pick<DataGridProps<{ id?: unknown }>,
@@ -809,7 +809,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
           editorPortalTarget={this.props.editorPortalTarget}
           interactionMasksMetaData={interactionMasksMetaData}
           keepAllRowsInDOM={this.props.keepAllRowsInDOM}
-          cellContext={this.props.cellContext}
+          context={this.props.context}
         />
       </div>
     );
