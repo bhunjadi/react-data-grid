@@ -59,7 +59,8 @@ export default class Row<R> extends React.Component<RowRendererProps<R>> impleme
       expandableOptions: this.getExpandableOptions(key),
       isScrolling,
       scrollLeft,
-      lastFrozenColumnIndex
+      lastFrozenColumnIndex,
+      context: this.props.cellContext
     };
 
     return <Renderer key={`${key as keyof R}-${idx}`} {...cellProps} />; // FIXME: fix key type

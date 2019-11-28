@@ -30,6 +30,7 @@ type SharedDataGridProps<R> = Pick<DataGridProps<R>,
 | 'onHeaderDrop'
 | 'getSubRowDetails'
 | 'editorPortalTarget'
+| 'cellContext'
 >;
 
 type SharedDataGridState<R> = Pick<DataGridState<R>,
@@ -149,6 +150,7 @@ export default class Grid<R> extends React.Component<GridProps<R>> {
               interactionMasksMetaData={this.props.interactionMasksMetaData}
               RowsContainer={this.props.RowsContainer}
               editorPortalTarget={this.props.editorPortalTarget}
+              cellContext={this.props.cellContext}
             />
           </div>
         )}

@@ -66,6 +66,7 @@ type SharedGridProps<R> = Pick<GridProps<R>,
 | 'interactionMasksMetaData'
 | 'RowsContainer'
 | 'editorPortalTarget'
+| 'cellContext'
 >;
 
 export interface ViewportProps<R> extends SharedGridProps<R> {
@@ -291,6 +292,7 @@ export default class Viewport<R> extends React.Component<ViewportProps<R>, Viewp
           RowsContainer={this.props.RowsContainer}
           editorPortalTarget={this.props.editorPortalTarget}
           interactionMasksMetaData={this.props.interactionMasksMetaData}
+          cellContext={this.props.cellContext}
         />
       </div>
     );
