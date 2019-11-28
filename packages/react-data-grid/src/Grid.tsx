@@ -38,6 +38,7 @@ type SharedDataGridProps<R> = Pick<DataGridProps<R>,
 | 'getSubRowDetails'
 | 'editorPortalTarget'
 | 'keepAllRowsInDOM'
+| 'renderSortableCellContent'
 >;
 
 type SharedDataGridState<R> = Pick<DataGridState<R>,
@@ -119,6 +120,7 @@ export default class Grid<R> extends React.Component<GridProps<R>> {
           draggableHeaderCell={this.props.draggableHeaderCell}
           sort={this.props.sort}
           onSort={this.props.onSort}
+          renderSortableCellContent={this.props.renderSortableCellContent}
           onHeaderDrop={this.props.onHeaderDrop}
           getValidFilterValues={this.props.getValidFilterValues}
           cellMetaData={this.props.cellMetaData}

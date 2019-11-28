@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { KeyboardEvent, ReactNode } from 'react';
+import { KeyboardEvent, ReactNode, ReactElement } from 'react';
 import { List } from 'immutable';
-import {DEFINE_SORT, HeaderRowType, UpdateActions} from './enums';
+import {DEFINE_SORT, HeaderRowType, UpdateActions } from './enums';
 
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
@@ -354,3 +354,12 @@ export type SortArray<TRow> = SortItem<TRow>[];
 export interface GridFilters<TRow> {
   [key: string]: any;
 }
+
+export interface SortableCellRendererProps<R> {
+  column: CalculatedColumn<R>;
+  onClick: (event: React.MouseEvent) => void;
+  rowType: HeaderRowType;
+  sortDirection: DEFINE_SORT;
+}
+
+export type SortableCellContentRenderer<R> = (props: SortableCellRendererProps<R>) => ReactElement;

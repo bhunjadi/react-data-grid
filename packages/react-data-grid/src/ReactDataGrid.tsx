@@ -37,7 +37,8 @@ import {
   SelectedRow,
   RowRendererProps,
   SortArray,
-  GridFilters
+  GridFilters,
+  SortableCellContentRenderer
 } from './common/types';
 import {isCtrlKeyHeldDown} from './common/utils/keyboardUtils';
 import areSortArraysEqual from './utils/areSortArraysEqual';
@@ -136,6 +137,8 @@ export interface DataGridProps<R extends {}> {
   sortColumn?: keyof R;
   /** The direction to sort the sortColumn*/
   sortDirection?: DEFINE_SORT;
+  /** Render sortable cell content */
+  renderSortableCellContent?: SortableCellContentRenderer<R>;
   /** Called when the grid is scrolled */
   onScroll?(scrollState: ScrollState): void;
   /** Component used to render a draggable header cell */
@@ -447,10 +450,13 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
   };
 
   handleSort = (sortColumn: keyof R, sortDirection: DEFINE_SORT, event: React.MouseEvent) => {
-    const stateChange = {
+    const stateChange: {
+      sortDirection: DEFINE_SORT;
+      sortColumn: keyof R;
+      sort?: SortArray<R>;
+    } = {
       sortDirection,
-      sortColumn,
-      sort: [] as SortArray<R>
+      sortColumn
     };
     const isMultiple = this.props.multipleColumnsSort;
     if (isMultiple) {
@@ -473,7 +479,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     this.setState(stateChange, () => {
       if (isMultiple) {
         if (this.props.onGridMultipleColumnsSort) {
-          this.props.onGridMultipleColumnsSort(stateChange.sort, sortColumn, sortDirection);
+          this.props.onGridMultipleColumnsSort(stateChange.sort as SortArray<R>, sortColumn, sortDirection);
         }
       }
       else if (this.props.onGridSort) {
@@ -780,6 +786,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
           sortDirection={this.state.sortDirection}
           sort={this.state.sort}
           onSort={this.handleSort}
+          renderSortableCellContent={this.props.renderSortableCellContent}
           minHeight={this.props.minHeight}
           totalWidth={gridWidth}
           onViewportKeydown={this.handleViewportKeyDown}
