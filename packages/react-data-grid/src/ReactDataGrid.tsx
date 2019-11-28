@@ -35,7 +35,8 @@ import {
   SubRowDetails,
   SubRowOptions,
   SelectedRow,
-  RowRendererProps
+  RowRendererProps,
+  SortableCellContentRenderer
 } from './common/types';
 
 export interface DataGridProps<R extends {}> {
@@ -127,6 +128,8 @@ export interface DataGridProps<R extends {}> {
   sortColumn?: keyof R;
   /** The direction to sort the sortColumn*/
   sortDirection?: DEFINE_SORT;
+  /** Render sortable cell content */
+  renderSortableCellContent?: SortableCellContentRenderer<R>;
   /** Called when the grid is scrolled */
   onScroll?(scrollState: ScrollState): void;
   /** Component used to render a draggable header cell */
@@ -713,6 +716,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
           sortColumn={this.state.sortColumn}
           sortDirection={this.state.sortDirection}
           onSort={this.handleSort}
+          renderSortableCellContent={this.props.renderSortableCellContent}
           minHeight={this.props.minHeight}
           totalWidth={gridWidth}
           onViewportKeydown={this.handleViewportKeyDown}

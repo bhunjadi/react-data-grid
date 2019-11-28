@@ -17,6 +17,7 @@ type SharedHeaderProps<R> = Pick<HeaderProps<R>,
 | 'sortDirection'
 | 'onSort'
 | 'getValidFilterValues'
+| 'renderSortableCellContent'
 >;
 
 export interface HeaderRowProps<R> extends SharedHeaderProps<R> {
@@ -80,6 +81,7 @@ export default class HeaderRow<R> extends React.Component<HeaderRowProps<R>> {
         onSort={this.props.onSort}
         sortDirection={sortDirection}
         sortDescendingFirst={sortDescendingFirst}
+        renderSortableCellContent={this.props.renderSortableCellContent}
       />
     );
   }

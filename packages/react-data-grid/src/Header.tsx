@@ -22,6 +22,7 @@ type SharedGridProps<R> = Pick<GridProps<R>,
 | 'onHeaderDrop'
 | 'getValidFilterValues'
 | 'cellMetaData'
+| 'renderSortableCellContent'
 >;
 
 export type HeaderProps<R> = SharedGridProps<R>;
@@ -102,6 +103,7 @@ export default class Header<R> extends React.Component<HeaderProps<R>, State<R>>
           sortColumn={this.props.sortColumn}
           sortDirection={this.props.sortDirection}
           onSort={this.props.onSort}
+          renderSortableCellContent={this.props.renderSortableCellContent}
           getValidFilterValues={this.props.getValidFilterValues}
         />
       );
