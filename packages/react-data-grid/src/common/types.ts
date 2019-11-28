@@ -163,7 +163,7 @@ export interface CellRendererProps<TRow, TValue = unknown> {
   isRowSelected?: boolean;
   expandableOptions?: ExpandableOptions;
   lastFrozenColumnIndex?: number;
-  context?: CellContext;
+  context?: GridContext;
 }
 
 export interface RowRendererProps<TRow> {
@@ -181,7 +181,7 @@ export interface RowRendererProps<TRow> {
   isScrolling: boolean;
   scrollLeft: number;
   lastFrozenColumnIndex?: number;
-  cellContext?: CellContext;
+  context?: GridContext;
 }
 
 export interface FilterRendererProps<TRow, TFilterValue = unknown> {
@@ -337,4 +337,4 @@ export interface RowSelectionParams<TRow> {
   row: TRow;
 }
 
-export type CellContext = any;
+export type GridContext = any;

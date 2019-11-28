@@ -35,7 +35,8 @@ import {
   SubRowDetails,
   SubRowOptions,
   SelectedRow,
-  RowRendererProps, CellContext
+  RowRendererProps,
+  GridContext
 } from './common/types';
 
 export interface DataGridProps<R extends {}> {
@@ -157,7 +158,7 @@ export interface DataGridProps<R extends {}> {
   /** called before cell is set active, returns a boolean to determine whether cell is editable */
   onCheckCellIsEditable?(event: CheckCellIsEditableEvent<R>): boolean;
   /** Context to be passed to each cell */
-  cellContext?: CellContext;
+  context?: GridContext;
 }
 
 type DefaultProps = Pick<DataGridProps<{ id?: unknown }>,
@@ -733,7 +734,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
           getSubRowDetails={this.props.getSubRowDetails}
           editorPortalTarget={this.props.editorPortalTarget}
           interactionMasksMetaData={interactionMasksMetaData}
-          cellContext={this.props.cellContext}
+          context={this.props.context}
         />
       </div>
     );
