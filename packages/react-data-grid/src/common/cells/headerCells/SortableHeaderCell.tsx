@@ -24,9 +24,10 @@ export interface Props<R> {
   renderSortableCellContent?: SortableCellContentRenderer<R>;
 }
 
-function DefaultCellRenderer<R>(props: SortableCellRendererProps<R>) {
+export function DefaultCellRenderer<R>(props: SortableCellRendererProps<R>) {
   const { column, rowType, sortDirection, onClick } = props;
   const { headerRenderer } = column;
+
   const content = !headerRenderer
     ? column.name
     : isElement(headerRenderer)
