@@ -1,6 +1,6 @@
 {
   "name": "@bhunjadi/react-data-grid",
-  "version": "2.0.3",
+  "version": "2.0.6",
   "description": "Excel-like grid component built with React, with editors, keyboard navigation, copy & paste, and the like",
   "author": "Adazzle",
   "license": "MIT",
@@ -13,10 +13,10 @@
     "commonjs"
   ],
   "sideEffects": false,
-  "repository": "adazzle/react-data-grid",
-  "homepage": "https://github.com/adazzle/react-data-grid",
+  "repository": "bhunjadi/react-data-grid",
+  "homepage": "https://github.com/bhunjadi/react-data-grid",
   "bugs": {
-    "url": "https://github.com/adazzle/react-data-grid/issues"
+    "url": "https://github.com/bhunjadi/react-data-grid/issues"
   },
   "keywords": [
     "react",
