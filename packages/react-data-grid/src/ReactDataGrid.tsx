@@ -73,6 +73,7 @@ export interface DataGridProps<R extends {}> {
   filters?: GridFilters<R>;
   onAddFilter?(event: AddFilterEvent<R>): void;
   onClearFilters?(): void;
+  showFilterRowInitially?: boolean;
   /** Function called whenever grid is sorted*/
   onGridSort?(columnKey: keyof R, direction: DEFINE_SORT): void;
   sort?: SortArray<R>;
@@ -249,17 +250,18 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     const initialState: DataGridState<R> = {
       columnMetrics: this.createColumnMetrics(),
       selectedRows: [],
-      canFilter: false,
+      canFilter: props.showFilterRowInitially,
       lastRowIdxUiSelected: -1
     };
 
-    if (this.props.multipleColumnsSort) {
-      initialState.sort = this.props.sort || [];
-    }
+    const {multipleColumnsSort, sort, sortColumn, sortDirection} = props;
 
-    if (this.props.sortColumn && this.props.sortDirection) {
-      initialState.sortColumn = this.props.sortColumn;
-      initialState.sortDirection = this.props.sortDirection;
+    if (multipleColumnsSort) {
+      initialState.sort = sort || [];
+    }
+    if (sortColumn && sortDirection) {
+      initialState.sortColumn = sortColumn;
+      initialState.sortDirection = sortDirection;
     }
     this.state = initialState;
   }
