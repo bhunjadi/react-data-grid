@@ -250,7 +250,7 @@ export default class ReactDataGrid<R extends {}> extends React.Component<DataGri
     const initialState: DataGridState<R> = {
       columnMetrics: this.createColumnMetrics(),
       selectedRows: [],
-      canFilter: props.showFilterRowInitially,
+      canFilter: props.showFilterRowInitially || false,
       lastRowIdxUiSelected: -1
     };
 
